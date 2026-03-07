@@ -2,10 +2,28 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    
+    <!-- PWA для iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Промбезопасность">
+    
+    <!-- Иконки для iOS -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512x512.png">
+    
+    <!-- Manifest для Android/PWA -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Splash screen для iPhone (экран загрузки) -->
+    <link rel="apple-touch-startup-image" href="icons/splash.png">
+    
     <title>Промышленная безопасность | Система тестирования</title>
     <style>
         * {
@@ -22,6 +40,11 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            /* Добавим отступы для безопасной зоны iPhone */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
 
         .container {
@@ -1221,7 +1244,7 @@
                 <button class="reset-hard-btn" onclick="resetHardQuestions(event)" title="Сбросить список трудных вопросов">✕</button>
             </div>
             <div class="footer-note">
-                Система тестирования МилиSiLовская | Версия 1.5
+                Система тестирования МилиSiLовская | Версия 1.2
             </div>
         </div>
 
@@ -1554,6 +1577,17 @@
             questionStates: []
         };
 
+        // Регистрация Service Worker для PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    console.log('ServiceWorker успешно зарегистрирован');
+                }).catch(function(err) {
+                    console.log('Ошибка регистрации ServiceWorker: ', err);
+                });
+            });
+        }
+
         // Функция показа уведомления
         function showNotification(message) {
             const container = document.getElementById('notificationContainer');
@@ -1857,7 +1891,7 @@
             }
         }
 
-        // Функции для работы с вопросами (все ваши существующие функции остаются без изменений)
+        // Функции для работы с вопросами
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));

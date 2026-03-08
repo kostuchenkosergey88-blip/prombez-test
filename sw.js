@@ -11,6 +11,47 @@ const urlsToCache = [
   'icons/splash.png'
 ];
 
+unction adjustTestSelectorHeight() {
+    const btn = document.querySelector('.test-selector-btn');
+    const textSpan = btn ? btn.querySelector('span:first-child') : null;
+    
+    if (btn && textSpan) {
+        // Проверяем, нужно ли увеличить высоту
+        if (window.innerWidth <= 480) {
+            // На маленьких экранах высота уже настроена через CSS
+            return;
+        }
+        
+        // Проверяем, помещается ли текст в одну строку
+        const tempSpan = document.createElement('span');
+        tempSpan.style.cssText = `
+            position: absolute;
+            visibility: hidden;
+            white-space: nowrap;
+            font-size: ${window.getComputedStyle(textSpan).fontSize};
+            font-family: ${window.getComputedStyle(textSpan).fontFamily};
+        `;
+        tempSpan.innerText = textSpan.innerText;
+        document.body.appendChild(tempSpan);
+        
+        const textWidth = tempSpan.offsetWidth;
+        const containerWidth = btn.offsetWidth - 40; // минус место для стрелки
+        
+        if (textWidth > containerWidth) {
+            // Текст не помещается, оставляем высоту для двух строк
+            btn.style.minHeight = '55px';
+        } else {
+            // Текст помещается, можно уменьшить высоту
+            btn.style.minHeight = '44px';
+        }
+        
+        document.body.removeChild(tempSpan);
+    }
+}
+
+// Вызываем при загрузке и изменении размера окна
+window.addEventListener('load', adjustTestSelectorHeight);
+window.addEventListener('resize', adjustTestSelectorHeight);
 // Установка Service Worker и кеширование файлов
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -50,4 +91,5 @@ self.addEventListener('activate', event => {
       );
     })
   );
+
 });

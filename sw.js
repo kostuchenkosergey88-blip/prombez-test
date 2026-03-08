@@ -11,7 +11,8 @@ const urlsToCache = [
   'icons/splash.png'
 ];
 
-unction adjustTestSelectorHeight() {
+
+function adjustTestSelectorHeight() {
     const btn = document.querySelector('.test-selector-btn');
     const textSpan = btn ? btn.querySelector('span:first-child') : null;
     
@@ -52,16 +53,6 @@ unction adjustTestSelectorHeight() {
 // Вызываем при загрузке и изменении размера окна
 window.addEventListener('load', adjustTestSelectorHeight);
 window.addEventListener('resize', adjustTestSelectorHeight);
-// Установка Service Worker и кеширование файлов
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Кеш открыт');
-        return cache.addAll(urlsToCache);
-      })
-  );
-});
 
 // Перехват запросов и возврат из кеша
 self.addEventListener('fetch', event => {
@@ -93,3 +84,4 @@ self.addEventListener('activate', event => {
   );
 
 });
+

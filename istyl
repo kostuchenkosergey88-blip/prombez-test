@@ -26,6 +26,7 @@
     
     <title>Промышленная безопасность | Система тестирования</title>
     <style>
+<style>
         * {
             margin: 0;
             padding: 0;
@@ -69,6 +70,10 @@
             justify-content: flex-start;
             flex-wrap: wrap;
             gap: 15px;
+            /* Добавляем отступы для безопасной зоны */
+            padding-top: max(12px, env(safe-area-inset-top));
+            padding-left: max(20px, env(safe-area-inset-left));
+            padding-right: max(20px, env(safe-area-inset-right));
         }
 
         .panel-left {
@@ -89,19 +94,20 @@
             padding-right: 20px;
         }
 
-        /* Селектор тестов */
+        /* Исправленный селектор тестов для мобильных с переносом текста */
         .test-selector {
             position: relative;
-            min-width: 500px;
+            min-width: 200px;
             flex: 1;
             max-width: 600px;
+            width: 100%;
         }
 
         .test-selector-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid #2a4a70;
             border-radius: 6px;
-            padding: 8px 15px;
+            padding: 12px 12px;
             color: white;
             display: flex;
             align-items: center;
@@ -109,23 +115,39 @@
             cursor: pointer;
             transition: all 0.2s;
             font-size: 0.95em;
+            min-height: 60px;
+            width: 100%;
+            gap: 8px;
+            line-height: 1.3;
         }
 
-        .test-selector-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #ffd700;
+        .test-selector-btn span:first-child {
+            /* Перенос текста */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 1.3;
+            max-height: 2.6em;
+            flex: 1;
+            word-break: break-word;
+            white-space: normal;
         }
 
         .test-selector-btn .arrow {
             font-size: 1.2em;
             color: #ffd700;
             transition: transform 0.2s;
+            flex-shrink: 0;
+            align-self: center;
         }
 
         .test-selector-btn.active .arrow {
             transform: rotate(180deg);
         }
 
+        /* Исправленный дропдаун для мобильных устройств */
         .test-dropdown {
             position: absolute;
             top: 100%;
@@ -135,11 +157,12 @@
             background: #1e3c5c;
             border: 2px solid #ffd700;
             border-radius: 6px;
-            max-height: 450px;
+            max-height: 300px;
             overflow-y: auto;
             z-index: 1000;
             display: none;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            -webkit-overflow-scrolling: touch;
         }
 
         .test-dropdown.show {
@@ -960,15 +983,18 @@
             box-shadow: 0 5px 10px rgba(244, 180, 0, 0.4);
         }
 
+        /* Медиа-запросы для мобильных устройств */
         @media (max-width: 768px) {
             .top-panel {
                 flex-direction: column;
                 align-items: stretch;
+                padding: max(12px, env(safe-area-inset-top)) 15px 12px 15px;
             }
             
             .panel-left {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 12px;
             }
             
             .panel-left h3 {
@@ -977,25 +1003,68 @@
                 padding-right: 0;
                 padding-bottom: 10px;
                 text-align: center;
+                width: 100%;
             }
             
             .test-selector {
                 width: 100%;
                 max-width: none;
             }
+            
+            .test-selector-btn {
+                font-size: 0.9em;
+                padding: 10px 8px;
+                min-height: 55px;
+            }
+            
+            .test-selector-btn span:first-child {
+                -webkit-line-clamp: 2;
+            }
+
+            .test-dropdown {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 400px;
+                max-height: 80vh;
+                margin-top: 0;
+                border: 3px solid #ffd700;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            }
+            
+            .test-item {
+                padding: 12px 12px;
+                font-size: 1em;
+            }
+            
+            .test-group {
+                padding: 8px 12px;
+            }
         }
 
-        @media (max-width: 640px) {            
+        @media (max-width: 480px) {
             #menu-screen, #quiz-screen, #exam-screen, #exam-review-screen {
-                padding: 20px;
+                padding: 15px;
             }
 
             h2 {
-                font-size: 1.4em;
+                font-size: 1.2em;
+                padding-bottom: 10px;
             }
 
             .menu-grid {
                 grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .block-card {
+                padding: 15px 10px;
+            }
+
+            .block-card h3 {
+                font-size: 1.2em;
             }
 
             .exam-card {
@@ -1008,27 +1077,107 @@
             }
 
             #q-text, #exam-q-text, #review-q-text {
-                font-size: 1.1em;
+                font-size: 1em;
+                padding-right: 30px;
             }
 
             .stats {
                 width: 100%;
                 justify-content: space-between;
+                padding: 6px 15px;
+                gap: 10px;
+            }
+
+            .stat-item {
+                font-size: 0.9em;
             }
 
             .timer-container {
                 width: 100%;
                 justify-content: center;
+                padding: 6px 15px;
+                font-size: 1.1em;
             }
 
             .nav-buttons {
                 flex-direction: column;
+                gap: 8px;
+            }
+
+            .nav-btn {
+                padding: 12px 8px;
+                font-size: 0.85em;
+                min-height: 44px;
             }
 
             .pagination {
-                max-height: 200px;
+                max-height: 150px;
                 overflow-y: auto;
                 justify-content: flex-start;
+                padding: 5px;
+            }
+
+            .page-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9em;
+            }
+
+            .star-btn {
+                font-size: 24px;
+                top: 10px;
+                right: 15px;
+            }
+            
+            .test-selector-btn {
+                font-size: 0.85em;
+                padding: 8px 6px;
+                min-height: 50px;
+            }
+            
+            .test-selector-btn span:first-child {
+                -webkit-line-clamp: 2;
+                line-height: 1.2;
+                max-height: 2.4em;
+            }
+            
+            .test-dropdown {
+                width: 95%;
+                max-height: 70vh;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .test-selector-btn {
+                font-size: 0.8em;
+                padding: 8px 5px;
+            }
+            
+            .panel-left h3 {
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .test-selector-btn {
+                font-size: 0.75em;
+                padding: 6px 4px;
+            }
+        }
+
+        /* Для iPhone с "челкой" и динамическим островом */
+        @supports (padding-top: constant(safe-area-inset-top)) or (padding-top: env(safe-area-inset-top)) {
+            .top-panel {
+                padding-top: max(12px, constant(safe-area-inset-top));
+                padding-top: max(12px, env(safe-area-inset-top));
+                padding-left: max(20px, constant(safe-area-inset-left));
+                padding-left: max(20px, env(safe-area-inset-left));
+                padding-right: max(20px, constant(safe-area-inset-right));
+                padding-right: max(20px, env(safe-area-inset-right));
+            }
+            
+            .container {
+                border-radius: 0;
             }
         }
 
@@ -1108,6 +1257,7 @@
             color: #808080;
             font-style: italic;
         }
+    </style>
     </style>
 </head>
 <body>
@@ -3030,4 +3180,5 @@
     </script>
 </body>
 </html>
+
 

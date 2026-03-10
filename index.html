@@ -21,7 +21,7 @@
     <!-- Manifest для Android/PWA -->
     <link rel="manifest" href="manifest.json">
     
-    <!-- Splash screen для iPhone -->
+    <!-- Splash screen для iPhone (экран загрузки) -->
     <link rel="apple-touch-startup-image" href="icons/splash.png">
     
     <title>Промышленная безопасность | Система тестирования</title>
@@ -40,7 +40,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            /* Отступы для безопасной зоны iPhone */
+            /* Добавим отступы для безопасной зоны iPhone */
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
             padding-left: env(safe-area-inset-left);
@@ -69,10 +69,6 @@
             justify-content: flex-start;
             flex-wrap: wrap;
             gap: 15px;
-            /* Отступы для безопасной зоны */
-            padding-top: max(12px, env(safe-area-inset-top));
-            padding-left: max(20px, env(safe-area-inset-left));
-            padding-right: max(20px, env(safe-area-inset-right));
         }
 
         .panel-left {
@@ -93,20 +89,19 @@
             padding-right: 20px;
         }
 
-        /* СЕЛЕКТОР ТЕСТОВ - ИСПРАВЛЕН ДЛЯ IPHONE */
+        /* Селектор тестов */
         .test-selector {
             position: relative;
-            min-width: 200px;
+            min-width: 500px;
             flex: 1;
             max-width: 600px;
-            width: 100%;
         }
 
         .test-selector-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid #2a4a70;
             border-radius: 6px;
-            padding: 12px 12px;
+            padding: 8px 15px;
             color: white;
             display: flex;
             align-items: center;
@@ -114,39 +109,23 @@
             cursor: pointer;
             transition: all 0.2s;
             font-size: 0.95em;
-            min-height: 60px;
-            width: 100%;
-            gap: 8px;
-            line-height: 1.3;
         }
 
-        .test-selector-btn span:first-child {
-            /* ПЕРЕНОС ТЕКСТА НА ДВЕ СТРОКИ */
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            line-height: 1.3;
-            max-height: 2.6em;
-            flex: 1;
-            word-break: break-word;
-            white-space: normal;
+        .test-selector-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ffd700;
         }
 
         .test-selector-btn .arrow {
             font-size: 1.2em;
             color: #ffd700;
             transition: transform 0.2s;
-            flex-shrink: 0;
-            align-self: center;
         }
 
         .test-selector-btn.active .arrow {
             transform: rotate(180deg);
         }
 
-        /* ДРОПДАУН - ИСПРАВЛЕН ДЛЯ IPHONE */
         .test-dropdown {
             position: absolute;
             top: 100%;
@@ -156,12 +135,11 @@
             background: #1e3c5c;
             border: 2px solid #ffd700;
             border-radius: 6px;
-            max-height: 300px;
+            max-height: 450px;
             overflow-y: auto;
             z-index: 1000;
             display: none;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            -webkit-overflow-scrolling: touch;
         }
 
         .test-dropdown.show {
@@ -982,18 +960,15 @@
             box-shadow: 0 5px 10px rgba(244, 180, 0, 0.4);
         }
 
-        /* МЕДИА-ЗАПРОСЫ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ */
         @media (max-width: 768px) {
             .top-panel {
                 flex-direction: column;
                 align-items: stretch;
-                padding: max(12px, env(safe-area-inset-top)) 15px 12px 15px;
             }
             
             .panel-left {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 12px;
             }
             
             .panel-left h3 {
@@ -1002,69 +977,25 @@
                 padding-right: 0;
                 padding-bottom: 10px;
                 text-align: center;
-                width: 100%;
             }
             
             .test-selector {
                 width: 100%;
                 max-width: none;
             }
-            
-            .test-selector-btn {
-                font-size: 0.9em;
-                padding: 10px 8px;
-                min-height: 55px;
-            }
-            
-            .test-selector-btn span:first-child {
-                -webkit-line-clamp: 2;
-            }
-
-            /* ДРОПДАУН НА МОБИЛЬНЫХ - ПО ЦЕНТРУ ЭКРАНА */
-            .test-dropdown {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 90%;
-                max-width: 400px;
-                max-height: 80vh;
-                margin-top: 0;
-                border: 3px solid #ffd700;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            }
-            
-            .test-item {
-                padding: 12px 12px;
-                font-size: 1em;
-            }
-            
-            .test-group {
-                padding: 8px 12px;
-            }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 640px) {            
             #menu-screen, #quiz-screen, #exam-screen, #exam-review-screen {
-                padding: 15px;
+                padding: 20px;
             }
 
             h2 {
-                font-size: 1.2em;
-                padding-bottom: 10px;
+                font-size: 1.4em;
             }
 
             .menu-grid {
                 grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .block-card {
-                padding: 15px 10px;
-            }
-
-            .block-card h3 {
-                font-size: 1.2em;
             }
 
             .exam-card {
@@ -1077,107 +1008,27 @@
             }
 
             #q-text, #exam-q-text, #review-q-text {
-                font-size: 1em;
-                padding-right: 30px;
+                font-size: 1.1em;
             }
 
             .stats {
                 width: 100%;
                 justify-content: space-between;
-                padding: 6px 15px;
-                gap: 10px;
-            }
-
-            .stat-item {
-                font-size: 0.9em;
             }
 
             .timer-container {
                 width: 100%;
                 justify-content: center;
-                padding: 6px 15px;
-                font-size: 1.1em;
             }
 
             .nav-buttons {
                 flex-direction: column;
-                gap: 8px;
-            }
-
-            .nav-btn {
-                padding: 12px 8px;
-                font-size: 0.85em;
-                min-height: 44px;
             }
 
             .pagination {
-                max-height: 150px;
+                max-height: 200px;
                 overflow-y: auto;
                 justify-content: flex-start;
-                padding: 5px;
-            }
-
-            .page-btn {
-                width: 36px;
-                height: 36px;
-                font-size: 0.9em;
-            }
-
-            .star-btn {
-                font-size: 24px;
-                top: 10px;
-                right: 15px;
-            }
-            
-            .test-selector-btn {
-                font-size: 0.85em;
-                padding: 8px 6px;
-                min-height: 50px;
-            }
-            
-            .test-selector-btn span:first-child {
-                -webkit-line-clamp: 2;
-                line-height: 1.2;
-                max-height: 2.4em;
-            }
-            
-            .test-dropdown {
-                width: 95%;
-                max-height: 70vh;
-            }
-        }
-
-        @media (max-width: 375px) {
-            .test-selector-btn {
-                font-size: 0.8em;
-                padding: 8px 5px;
-            }
-            
-            .panel-left h3 {
-                font-size: 0.9em;
-            }
-        }
-
-        @media (max-width: 350px) {
-            .test-selector-btn {
-                font-size: 0.75em;
-                padding: 6px 4px;
-            }
-        }
-
-        /* ДЛЯ IPHONE С ЧЕЛКОЙ */
-        @supports (padding-top: constant(safe-area-inset-top)) or (padding-top: env(safe-area-inset-top)) {
-            .top-panel {
-                padding-top: max(12px, constant(safe-area-inset-top));
-                padding-top: max(12px, env(safe-area-inset-top));
-                padding-left: max(20px, constant(safe-area-inset-left));
-                padding-left: max(20px, env(safe-area-inset-left));
-                padding-right: max(20px, constant(safe-area-inset-right));
-                padding-right: max(20px, env(safe-area-inset-right));
-            }
-            
-            .container {
-                border-radius: 0;
             }
         }
 
@@ -1393,11 +1244,10 @@
                 <button class="reset-hard-btn" onclick="resetHardQuestions(event)" title="Сбросить список трудных вопросов">✕</button>
             </div>
             <div class="footer-note">
-                Система тестирования МилиSiLовская | Версия 1.5
+                Система тестирования МилиSiLовская | Версия 1.2
             </div>
         </div>
 
-        <!-- Экран тренировки -->
         <div id="quiz-screen" style="display: none;">
             <div class="quiz-header">
                 <button class="back-btn" onclick="showMenu()">
@@ -1443,7 +1293,6 @@
             </div>
         </div>
 
-        <!-- Экран экзамена -->
         <div id="exam-screen" style="display: none;">
             <div class="quiz-header">
                 <button class="back-btn" onclick="showMenu()">
@@ -1497,7 +1346,6 @@
             </button>
         </div>
 
-        <!-- Экран просмотра результатов -->
         <div id="exam-review-screen">
             <div class="review-header">
                 <button class="back-btn" onclick="showExamResults()">
@@ -1542,11 +1390,12 @@
     </div>
 
     <script>
-        // Массив доступных тестов
+        // Массив доступных тестов (для которых есть JSON-файлы)
         const AVAILABLE_TESTS = ['b211', 'b26-marine'];
 
         // Конфигурация тестов
         const TEST_CONFIGS = {
+            // А.1 Основы - 211 вопросов / 4 блока
             a1: {
                 code: 'А.1',
                 name: 'Основы промышленной безопасности',
@@ -1560,6 +1409,7 @@
                     { num: 4, start: 159, end: 211, desc: 'Вопросы 160 - 211' }
                 ]
             },
+            // Б.2.1 - 405 вопросов / 6 блоков
             b21: {
                 code: 'Б.2.1',
                 name: 'Эксплуатация объектов нефтяной и газовой промышленности',
@@ -1575,6 +1425,7 @@
                     { num: 6, start: 340, end: 405, desc: 'Вопросы 341 - 405' }
                 ]
             },
+            // Б.2.3 - 228 вопросов / 4 блока
             b23: {
                 code: 'Б.2.3',
                 name: 'Проектирование, строительство, реконструкция',
@@ -1588,6 +1439,7 @@
                     { num: 4, start: 171, end: 228, desc: 'Вопросы 172 - 228' }
                 ]
             },
+            // Б.2.6 Морские - 187 вопросов / 4 блока (АКТИВЕН)
             'b26-marine': {
                 code: 'Б.2.6',
                 name: 'Разведка и разработка морских месторождений',
@@ -1601,6 +1453,7 @@
                     { num: 4, start: 141, end: 187, desc: 'Вопросы 142 - 187' }
                 ]
             },
+            // Б.2.7 - 155 вопросов / 4 блока
             b27: {
                 code: 'Б.2.7',
                 name: 'Магистральные нефтепроводы',
@@ -1614,6 +1467,7 @@
                     { num: 4, start: 117, end: 155, desc: 'Вопросы 118 - 155' }
                 ]
             },
+            // Б.2.8 - 132 вопроса / 4 блока
             b28: {
                 code: 'Б.2.8',
                 name: 'Магистральные газопроводы',
@@ -1627,6 +1481,7 @@
                     { num: 4, start: 99, end: 132, desc: 'Вопросы 100 - 132' }
                 ]
             },
+            // Б.2.11 - 160 вопросов / 4 блока (АКТИВЕН)
             b211: {
                 code: 'Б.2.11',
                 name: 'Ремонтные, монтажные и пусконаладочные работы',
@@ -1640,6 +1495,7 @@
                     { num: 4, start: 120, end: 160, desc: 'Вопросы 121 - 160' }
                 ]
             },
+            // Тесты по электробезопасности
             electro2: {
                 code: '2 гр.',
                 name: 'Электробезопасность (2 группа)',
@@ -1721,6 +1577,13 @@
             questionStates: []
         };
 
+        // Функция для форматирования пояснений (звездочки в жирный текст)
+        function formatExplanation(text) {
+            if (!text) return text;
+            // Заменяем **текст** на <strong>текст</strong>
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
         // Регистрация Service Worker для PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
@@ -1759,34 +1622,8 @@
         function toggleTestDropdown() {
             const menu = document.getElementById('testDropdown');
             const btn = document.getElementById('testSelectorBtn');
-            const isMobile = window.innerWidth <= 768;
-            
             menu.classList.toggle('show');
             btn.classList.toggle('active');
-            
-            // Для мобильных добавляем overlay
-            if (isMobile && menu.classList.contains('show')) {
-                const overlay = document.createElement('div');
-                overlay.className = 'dropdown-overlay';
-                overlay.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: rgba(0,0,0,0.5);
-                    z-index: 999;
-                `;
-                overlay.onclick = function() {
-                    menu.classList.remove('show');
-                    btn.classList.remove('active');
-                    this.remove();
-                };
-                document.body.appendChild(overlay);
-            } else {
-                const overlay = document.querySelector('.dropdown-overlay');
-                if (overlay) overlay.remove();
-            }
         }
 
         // Закрытие дропдауна при клике вне его
@@ -1798,18 +1635,18 @@
             if (selector && !selector.contains(event.target)) {
                 if (menu) menu.classList.remove('show');
                 if (btn) btn.classList.remove('active');
-                const overlay = document.querySelector('.dropdown-overlay');
-                if (overlay) overlay.remove();
             }
         });
 
         // Функция для полной очистки всех экранов при переключении теста
         function resetAllScreens() {
+            // Скрываем все экраны кроме меню
             document.getElementById('menu-screen').style.display = 'block';
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('exam-screen').style.display = 'none';
             document.getElementById('exam-review-screen').style.display = 'none';
             
+            // Сбрасываем отображение элементов экзамена
             const examQuestionContainer = document.getElementById('exam-question-container');
             const examOptionsBox = document.getElementById('exam-options-box');
             const examNextBtn = document.getElementById('exam-next-btn');
@@ -1820,6 +1657,7 @@
             if (examNextBtn) examNextBtn.style.display = 'none';
             if (examResult) examResult.style.display = 'none';
             
+            // Очищаем содержимое
             const qText = document.getElementById('q-text');
             const optionsBox = document.getElementById('options-box');
             const expBox = document.getElementById('exp-box');
@@ -1841,6 +1679,7 @@
             if (reviewOptionsBox) reviewOptionsBox.innerHTML = '';
             if (reviewExpBox) reviewExpBox.innerHTML = '';
             
+            // Сбрасываем счетчики
             const qCounter = document.getElementById('q-counter');
             const scoreDisplay = document.getElementById('score-display');
             const examCounter = document.getElementById('exam-counter');
@@ -1855,6 +1694,7 @@
             if (reviewCounter) reviewCounter.innerText = '0/20';
             if (reviewHardCount) reviewHardCount.innerText = '0';
             
+            // Сбрасываем прогресс-бары
             const progressFill = document.getElementById('progress-fill');
             const examProgressFill = document.getElementById('exam-progress-fill');
             const reviewProgressFill = document.getElementById('review-progress-fill');
@@ -1863,6 +1703,7 @@
             if (examProgressFill) examProgressFill.style.width = '0%';
             if (reviewProgressFill) reviewProgressFill.style.width = '0%';
             
+            // Сбрасываем таймер
             const timerDisplay = document.getElementById('timer-display');
             if (timerDisplay) {
                 timerDisplay.innerText = '20:00';
@@ -1873,13 +1714,44 @@
             }
         }
 
-        // Выбор теста
+        // Функция для создания блоков
+        function renderBlocks(config) {
+            const container = document.getElementById('blocksContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            // Создаем блоки
+            config.blocks.forEach(block => {
+                const blockCard = document.createElement('div');
+                blockCard.className = 'block-card';
+                blockCard.setAttribute('onclick', `startBlock(${block.num}, ${block.start}, ${block.end})`);
+                blockCard.innerHTML = `
+                    <h3>БЛОК ${block.num}</h3>
+                    <p>${block.desc}</p>
+                `;
+                container.appendChild(blockCard);
+            });
+            
+            // Добавляем итоговое тестирование
+            const examCard = document.createElement('div');
+            examCard.className = 'block-card exam-card';
+            examCard.setAttribute('onclick', 'startExam()');
+            examCard.innerHTML = `
+                <h3>Итоговое тестирование</h3>
+                <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
+            `;
+            container.appendChild(examCard);
+        }
+
+        // Выбор теста (исправленная версия с полной очисткой)
         function selectTest(testId) {
             if (!TEST_CONFIGS[testId]) {
                 showNotification('Тест появится в скором времени');
                 return;
             }
             
+            // Проверяем, доступен ли тест
             if (!AVAILABLE_TESTS.includes(testId)) {
                 showNotification(`Тест "${TEST_CONFIGS[testId].name}" появится в ближайшее время`);
                 return;
@@ -1887,8 +1759,10 @@
             
             console.log('Переключение на тест:', testId);
             
+            // Принудительно сбрасываем все экраны
             resetAllScreens();
             
+            // ПОЛНАЯ ОЧИСТКА ВСЕХ ДАННЫХ
             fullBase = [];
             activeQuestions = [];
             hardQuestions = [];
@@ -1896,6 +1770,7 @@
             examAnswers = [];
             examResults = [];
             
+            // Сбрасываем индексы и счетчики
             currentIdx = 0;
             score = 0;
             examCurrentIdx = 0;
@@ -1904,32 +1779,29 @@
             answeredQuestionsCount = 0;
             reviewCurrentIdx = 0;
             
+            // Очищаем Map с состояниями ответов
             answerStates.clear();
+            
+            // Очищаем выбранные опции
             selectedOptions = [];
             
+            // Останавливаем таймер если он запущен
             if (examTimer) {
                 clearInterval(examTimer);
                 examTimer = null;
             }
             
+            // Очищаем состояние тренировки для предыдущего теста
             clearTrainingState();
             
             currentTest = testId;
             const config = TEST_CONFIGS[testId];
             
-            // Для мобильных используем сокращенное название
-            let displayName = `${config.code} ${config.name}`;
-            if (window.innerWidth <= 480) {
-                const shortNames = {
-                    'b211': 'Б.2.11 Ремонтные работы',
-                    'b26-marine': 'Б.2.6 Морские'
-                };
-                displayName = shortNames[testId] || `${config.code} ${config.name}`;
-            }
-            
-            document.getElementById('selectedTestDisplay').innerText = displayName;
+            // Обновляем отображение
+            document.getElementById('selectedTestDisplay').innerText = `${config.code} ${config.name}`;
             document.getElementById('testTitle').innerHTML = config.fullName;
             
+            // Очищаем меню и создаем новые блоки
             const menuGrid = document.querySelector('.menu-grid');
             if (menuGrid) {
                 menuGrid.innerHTML = '';
@@ -1944,6 +1816,7 @@
                     menuGrid.appendChild(blockCard);
                 });
                 
+                // Добавляем итоговое тестирование
                 const examCard = document.createElement('div');
                 examCard.className = 'block-card exam-card';
                 examCard.setAttribute('onclick', 'startExam()');
@@ -1954,27 +1827,29 @@
                 menuGrid.appendChild(examCard);
             }
             
+            // Обновляем выделение в дропдауне
             document.querySelectorAll('.test-item').forEach(item => {
                 item.classList.remove('selected');
             });
             const selectedItem = document.querySelector(`.test-item[data-test="${testId}"]`);
             if (selectedItem) selectedItem.classList.add('selected');
             
+            // Закрываем дропдаун
             document.getElementById('testDropdown').classList.remove('show');
             document.getElementById('testSelectorBtn').classList.remove('active');
-            const overlay = document.querySelector('.dropdown-overlay');
-            if (overlay) overlay.remove();
             
+            // Загружаем вопросы нового теста
             loadQuestions(testId);
         }
 
-        // Загрузка вопросов
+        // Загрузка вопросов (исправленная версия с анти-кешированием)
         async function loadQuestions(testId) {
             const config = TEST_CONFIGS[testId];
             
             try {
                 console.log(`Загрузка вопросов для ${testId} из файла ${config.jsonFile}`);
                 
+                // Добавляем параметр для избежания кеширования браузером
                 const response = await fetch(`${config.jsonFile}?t=${Date.now()}`);
                 
                 if (!response.ok) {
@@ -1984,6 +1859,7 @@
                 const data = await response.json();
                 console.log('JSON загружен, ключи:', Object.keys(data));
                 
+                // Обрабатываем особый случай для b26-marine (ключ в JSON - 'b26')
                 if (testId === 'b26-marine') {
                     fullBase = data.b26 || [];
                     console.log('Загружено для Б.2.6 из ключа b26:', fullBase.length);
@@ -1999,6 +1875,7 @@
                     return;
                 }
                 
+                // Загружаем трудные вопросы для этого теста
                 const saved = localStorage.getItem(`hardQuestions_${testId}`);
                 if (saved) {
                     try {
@@ -2021,7 +1898,7 @@
             }
         }
 
-         // Функции для работы с вопросами
+        // Функции для работы с вопросами
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -2687,7 +2564,7 @@
             });
 
             const expBox = document.getElementById('review-exp-box');
-            if (expBox) expBox.innerText = q.e;
+            if (expBox) expBox.innerHTML = formatExplanation(q.e);
             
             updateReviewProgress();
             updateReviewPaginationActive();
@@ -2967,7 +2844,7 @@
             const expBox = document.getElementById('exp-box');
             if (expBox) {
                 if (savedState && savedState.isChecked) {
-                    expBox.innerText = q.e;
+                    expBox.innerHTML = formatExplanation(q.e);
                     expBox.style.display = 'block';
                 } else {
                     expBox.style.display = 'none';
@@ -3046,7 +2923,7 @@
 
             const expBox = document.getElementById('exp-box');
             if (expBox) {
-                expBox.innerText = q.e;
+                expBox.innerHTML = formatExplanation(q.e);
                 expBox.style.display = 'block';
             }
             
@@ -3152,17 +3029,11 @@
                 saveTrainingState();
             }
         });
-        
-        window.addEventListener('beforeunload', function() {
-            if (activeQuestions.length > 0 && currentIdx < activeQuestions.length) {
-                saveTrainingState();
-            }
-        });
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Загружаем тест по умолчанию (б211)
             loadQuestions('b211');
         });
     </script>
 </body>
 </html>
-

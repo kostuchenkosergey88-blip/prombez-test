@@ -1244,7 +1244,7 @@
                 <button class="reset-hard-btn" onclick="resetHardQuestions(event)" title="Сбросить список трудных вопросов">✕</button>
             </div>
             <div class="footer-note">
-                Система тестирования МилиSiLовская | Версия 1.5
+                Система тестирования МилиSiLовская | Версия 1.2
             </div>
         </div>
 
@@ -1576,13 +1576,6 @@
             blockNum: null,
             questionStates: []
         };
-
-        // Функция для форматирования пояснений (звездочки в жирный текст)
-        function formatExplanation(text) {
-            if (!text) return text;
-            // Заменяем **текст** на <strong>текст</strong>
-            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        }
 
         // Регистрация Service Worker для PWA
         if ('serviceWorker' in navigator) {
@@ -2564,7 +2557,7 @@
             });
 
             const expBox = document.getElementById('review-exp-box');
-            if (expBox) expBox.innerHTML = formatExplanation(q.e);
+            if (expBox) expBox.innerText = q.e;
             
             updateReviewProgress();
             updateReviewPaginationActive();
@@ -2844,7 +2837,7 @@
             const expBox = document.getElementById('exp-box');
             if (expBox) {
                 if (savedState && savedState.isChecked) {
-                    expBox.innerHTML = formatExplanation(q.e);
+                    expBox.innerText = q.e;
                     expBox.style.display = 'block';
                 } else {
                     expBox.style.display = 'none';
@@ -2923,7 +2916,7 @@
 
             const expBox = document.getElementById('exp-box');
             if (expBox) {
-                expBox.innerHTML = formatExplanation(q.e);
+                expBox.innerText = q.e;
                 expBox.style.display = 'block';
             }
             

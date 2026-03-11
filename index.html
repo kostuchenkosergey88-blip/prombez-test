@@ -39,7 +39,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 20px;
+            /* Добавим отступы для безопасной зоны iPhone */
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
             padding-left: env(safe-area-inset-left);
@@ -55,7 +56,6 @@
             overflow: hidden;
             border: 1px solid #b0b0b0;
             position: relative;
-            z-index: 1;
         }
 
         /* Верхняя панель навигации */
@@ -69,8 +69,6 @@
             justify-content: flex-start;
             flex-wrap: wrap;
             gap: 15px;
-            position: relative;
-            z-index: 100;
         }
 
         .panel-left {
@@ -97,7 +95,6 @@
             min-width: 500px;
             flex: 1;
             max-width: 600px;
-            z-index: 200;
         }
 
         .test-selector-btn {
@@ -112,8 +109,6 @@
             cursor: pointer;
             transition: all 0.2s;
             font-size: 0.95em;
-            position: relative;
-            z-index: 210;
         }
 
         .test-selector-btn:hover {
@@ -167,8 +162,6 @@
             transition: all 0.2s;
             border-bottom: 1px solid #2a4a70;
             color: white;
-            position: relative;
-            z-index: 1010;
         }
 
         .test-item:last-child {
@@ -189,6 +182,23 @@
             cursor: not-allowed;
             pointer-events: none;
             background: rgba(255, 255, 255, 0.05);
+        }
+
+        .test-item.disabled:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: none;
+        }
+
+        .test-item.disabled .test-code {
+            color: #808080;
+        }
+
+        .test-item.disabled .test-name {
+            color: #a0a0a0;
+        }
+
+        .test-item.disabled .test-desc {
+            color: #606060;
         }
 
         .test-code {
@@ -280,19 +290,17 @@
         }
 
         #menu-screen {
-            padding: 25px 20px;
-            position: relative;
-            z-index: 50;
+            padding: 35px 40px;
         }
 
         h2 {
-            font-size: 1.6em;
+            font-size: 1.8em;
             font-weight: 600;
             color: #1e3c5c;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: center;
             border-bottom: 3px solid #1e3c5c;
-            padding-bottom: 12px;
+            padding-bottom: 15px;
             letter-spacing: 0.5px;
             line-height: 1.4;
         }
@@ -300,23 +308,19 @@
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 12px;
-            position: relative;
-            z-index: 60;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
         .block-card {
             background: #f5f5f5;
-            padding: 20px 10px;
+            padding: 25px 15px;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s ease;
             border: 1px solid #c0c0c0;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 70;
         }
 
         .block-card:hover {
@@ -327,15 +331,15 @@
         }
 
         .block-card h3 {
-            font-size: 1.3em;
+            font-size: 1.4em;
             color: #1e3c5c;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 600;
         }
 
         .block-card p {
             color: #4a4a4a;
-            font-size: 0.9em;
+            font-size: 0.95em;
         }
 
         .exam-card {
@@ -361,9 +365,8 @@
         .hard-mode-card {
             background: #4a4a4a;
             border: 1px solid #2d2d2d;
-            margin-top: 12px;
+            margin-top: 15px;
             position: relative;
-            z-index: 80;
         }
 
         .hard-mode-card h3 {
@@ -400,7 +403,6 @@
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
-            z-index: 90;
         }
 
         .reset-hard-btn:hover {
@@ -409,9 +411,7 @@
         }
 
         #quiz-screen, #exam-screen, #exam-review-screen {
-            padding: 20px 15px;
-            position: relative;
-            z-index: 50;
+            padding: 25px 30px;
         }
 
         #exam-review-screen {
@@ -422,26 +422,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
             border-bottom: 2px solid #1e3c5c;
-            padding-bottom: 12px;
-            position: relative;
-            z-index: 60;
+            padding-bottom: 15px;
         }
 
         .quiz-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
             border-bottom: 2px solid #1e3c5c;
-            padding-bottom: 12px;
-            position: relative;
-            z-index: 60;
+            padding-bottom: 15px;
         }
 
         .back-btn {
@@ -454,13 +450,11 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            padding: 6px 12px;
+            padding: 6px 15px;
             border-radius: 4px;
             transition: all 0.2s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            position: relative;
-            z-index: 70;
         }
 
         .back-btn:hover {
@@ -471,9 +465,9 @@
 
         .stats {
             display: flex;
-            gap: 15px;
+            gap: 25px;
             background: #f0f0f0;
-            padding: 6px 15px;
+            padding: 8px 25px;
             border-radius: 4px;
             border: 1px solid #c0c0c0;
         }
@@ -481,22 +475,22 @@
         .stat-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
             color: #1e3c5c;
             font-weight: 600;
-            font-size: 1em;
+            font-size: 1.1em;
         }
 
         .stat-icon {
-            font-size: 1.1em;
+            font-size: 1.2em;
         }
 
         .progress-container {
             width: 100%;
-            height: 8px;
+            height: 10px;
             background: #e0e0e0;
             border-radius: 0;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border: 1px solid #b0b0b0;
         }
 
@@ -513,11 +507,10 @@
         .question-container {
             position: relative;
             background: #f8f8f8;
-            padding: 20px 15px;
-            margin-bottom: 20px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
             border: 2px solid #c0c0c0;
             border-left: 6px solid #1e3c5c;
-            z-index: 55;
         }
 
         .exam-question {
@@ -532,15 +525,15 @@
 
         .star-btn {
             position: absolute;
-            top: 10px;
-            right: 15px;
+            top: 15px;
+            right: 20px;
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 28px;
             cursor: pointer;
             color: #b0b0b0;
             transition: all 0.2s;
-            z-index: 100;
+            z-index: 2;
         }
 
         .star-btn:hover {
@@ -552,29 +545,46 @@
             color: #f4b400;
         }
 
+        .star-btn-small {
+            font-size: 20px;
+            margin-left: 8px;
+            cursor: pointer;
+            color: #b0b0b0;
+            transition: all 0.2s;
+        }
+
+        .star-btn-small:hover {
+            transform: scale(1.2);
+            color: #f4b400;
+        }
+
+        .star-btn-small.active {
+            color: #f4b400;
+        }
+
         #q-text, #exam-q-text, #review-q-text {
-            font-size: 1.2em;
+            font-size: 1.3em;
             color: #2d2d2d;
             line-height: 1.5;
-            padding-right: 30px;
+            padding-right: 40px;
             font-weight: 500;
         }
 
         .timer-container {
             background: #2d2d2d;
             color: white;
-            padding: 6px 15px;
+            padding: 8px 20px;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.2em;
+            gap: 15px;
+            font-size: 1.3em;
             font-weight: 700;
             border: 2px solid #b22222;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         .timer-icon {
-            font-size: 1.2em;
+            font-size: 1.3em;
         }
 
         .timer-warning {
@@ -585,26 +595,22 @@
         .options-box {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 60;
+            gap: 10px;
+            margin-bottom: 25px;
         }
 
         .option-btn {
             width: 100%;
-            padding: 12px 15px;
+            padding: 15px 20px;
             background: white;
             border: 2px solid #c0c0c0;
             border-radius: 4px;
             text-align: left;
-            font-size: 1em;
+            font-size: 1.05em;
             color: #333;
             cursor: pointer;
             transition: all 0.2s;
             line-height: 1.4;
-            position: relative;
-            z-index: 70;
         }
 
         .option-btn:hover:not(:disabled) {
@@ -659,11 +665,11 @@
         .explanation-box {
             background: #f0f0f0;
             border-left: 6px solid #1e3c5c;
-            padding: 15px 20px;
-            margin: 20px 0;
+            padding: 20px 25px;
+            margin: 25px 0;
             color: #2d2d2d;
-            font-size: 1em;
-            line-height: 1.5;
+            font-size: 1.05em;
+            line-height: 1.6;
             border: 1px solid #c0c0c0;
         }
 
@@ -671,8 +677,6 @@
             display: flex;
             gap: 8px;
             margin-top: 15px;
-            position: relative;
-            z-index: 80;
         }
 
         .nav-btn {
@@ -687,8 +691,6 @@
             letter-spacing: 0.5px;
             border-radius: 4px;
             opacity: 1;
-            position: relative;
-            z-index: 90;
         }
 
         .nav-btn:disabled {
@@ -696,6 +698,11 @@
             cursor: not-allowed;
             transform: none !important;
             pointer-events: none;
+        }
+
+        .nav-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
         }
 
         #check-btn {
@@ -733,8 +740,6 @@
             background: #f8f8f8;
             border-radius: 4px;
             border: 1px solid #e0e0e0;
-            position: relative;
-            z-index: 70;
         }
 
         .page-btn {
@@ -752,8 +757,6 @@
             align-items: center;
             justify-content: center;
             box-shadow: none;
-            position: relative;
-            z-index: 80;
         }
 
         .page-btn:hover:not(:disabled) {
@@ -796,15 +799,15 @@
 
         .result-box {
             text-align: center;
-            padding: 30px 20px;
+            padding: 40px 30px;
             background: #f8f8f8;
             border: 2px solid #c0c0c0;
         }
 
         .result-title {
-            font-size: 1.8em;
+            font-size: 2.2em;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-transform: uppercase;
         }
 
@@ -817,24 +820,24 @@
         }
 
         .result-score {
-            font-size: 2.5em;
+            font-size: 3em;
             font-weight: 800;
-            margin: 15px 0;
+            margin: 20px 0;
             color: #1e3c5c;
         }
 
         .result-details {
-            font-size: 1.1em;
+            font-size: 1.2em;
             color: #4a4a4a;
-            margin: 15px 0;
-            line-height: 1.6;
+            margin: 20px 0;
+            line-height: 1.8;
         }
 
         .result-nav {
-            margin: 20px 0;
-            max-height: 250px;
+            margin: 30px 0;
+            max-height: 300px;
             overflow-y: auto;
-            padding: 10px;
+            padding: 15px;
             background: #ffffff;
             border: 1px solid #c0c0c0;
             border-radius: 4px;
@@ -844,12 +847,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 10px;
+            padding: 8px 12px;
             border-bottom: 1px solid #e0e0e0;
             cursor: pointer;
             transition: all 0.2s;
-            position: relative;
-            z-index: 90;
         }
 
         .result-question-item:hover {
@@ -863,30 +864,29 @@
         .result-question-info {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             flex: 1;
         }
 
         .result-question-number {
             font-weight: 700;
             color: #1e3c5c;
-            min-width: 35px;
-            font-size: 0.9em;
+            min-width: 40px;
         }
 
         .result-question-text {
-            font-size: 0.85em;
+            font-size: 0.9em;
             color: #333;
             flex: 1;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 200px;
+            max-width: 400px;
         }
 
         .result-question-status {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             display: inline-block;
         }
@@ -902,13 +902,11 @@
         .result-star-btn {
             background: none;
             border: none;
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
             color: #b0b0b0;
             transition: all 0.2s;
-            margin-left: 5px;
-            position: relative;
-            z-index: 100;
+            margin-left: 10px;
         }
 
         .result-star-btn:hover {
@@ -923,18 +921,16 @@
         .restart-exam-btn {
             background: #1e3c5c;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 35px;
             border: 2px solid #0a1a2a;
             border-radius: 4px;
-            font-size: 1em;
+            font-size: 1.1em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            margin: 8px;
+            margin: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            position: relative;
-            z-index: 90;
         }
 
         .restart-exam-btn:hover {
@@ -946,18 +942,16 @@
         .review-btn {
             background: #f4b400;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 35px;
             border: 2px solid #d4a000;
             border-radius: 4px;
-            font-size: 1em;
+            font-size: 1.1em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            margin: 8px;
+            margin: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            position: relative;
-            z-index: 90;
         }
 
         .review-btn:hover {
@@ -966,14 +960,86 @@
             box-shadow: 0 5px 10px rgba(244, 180, 0, 0.4);
         }
 
+        @media (max-width: 768px) {
+            .top-panel {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .panel-left {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .panel-left h3 {
+                border-right: none;
+                border-bottom: 2px solid #2a4a70;
+                padding-right: 0;
+                padding-bottom: 10px;
+                text-align: center;
+            }
+            
+            .test-selector {
+                width: 100%;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 640px) {            
+            #menu-screen, #quiz-screen, #exam-screen, #exam-review-screen {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .exam-card {
+                grid-column: span 1;
+            }
+
+            .quiz-header, .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            #q-text, #exam-q-text, #review-q-text {
+                font-size: 1.1em;
+            }
+
+            .stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .timer-container {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .pagination {
+                max-height: 200px;
+                overflow-y: auto;
+                justify-content: flex-start;
+            }
+        }
+
         .footer-note {
-            margin-top: 15px;
+            margin-top: 20px;
             text-align: center;
-            font-size: 0.8em;
+            font-size: 0.85em;
             color: #808080;
             border-top: 1px solid #d0d0d0;
-            padding-top: 12px;
-            margin-bottom: 20px;
+            padding-top: 15px;
+            margin-bottom: 30px;
         }
 
         .hard-count {
@@ -989,129 +1055,58 @@
             margin-left: 3px;
         }
 
-        /* ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ - КЛИКАБЕЛЬНОСТЬ */
-        @media (max-width: 768px) {
-            /* Делаем все кликабельные элементы с достаточной областью касания */
-            .block-card, 
-            .test-selector-btn,
-            .test-item,
-            .back-btn,
-            .nav-btn,
-            .option-btn,
-            .page-btn,
-            .star-btn,
-            .reset-hard-btn,
-            .restart-exam-btn,
-            .review-btn,
-            .result-star-btn,
-            .result-question-item {
-                cursor: pointer;
-                -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3);
-                touch-action: manipulation;
-            }
-            
-            /* Увеличиваем область касания */
-            .block-card {
-                padding: 20px 10px;
-                margin: 5px 0;
-                min-height: 80px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            
-            .nav-btn, .back-btn {
-                min-height: 48px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            .option-btn {
-                min-height: 54px;
-                padding: 12px 15px;
-            }
-            
-            .page-btn {
-                width: 44px;
-                height: 44px;
-                font-size: 1em;
-            }
-            
-            .test-selector-btn {
-                min-height: 54px;
-                padding: 12px 15px;
-            }
-            
-            .test-item {
-                padding: 15px 12px;
-            }
-            
-            .star-btn {
-                padding: 15px;
-                font-size: 32px;
-                right: 5px;
-                top: 5px;
-            }
-            
-            /* Исправляем выпадающий список */
-            .test-dropdown {
-                z-index: 1000;
-                max-height: 60vh;
-                position: fixed;
-                left: 10px;
-                right: 10px;
-                width: auto;
-            }
-            
-            .test-dropdown.show {
-                display: block;
-            }
-            
-            /* Увеличиваем отступы для удобства */
-            .nav-buttons {
-                gap: 10px;
-                margin-bottom: 20px;
-            }
-            
-            .pagination {
-                gap: 8px;
-                padding: 12px;
-            }
-            
-            /* Исправляем результаты экзамена */
-            .result-box .restart-exam-btn,
-            .result-box .review-btn {
-                min-height: 48px;
-                width: 100%;
-                margin: 5px 0;
-                display: block;
-            }
-            
-            .result-box > div:last-child {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-                padding: 0 10px;
-            }
-            
-            .result-question-item {
-                min-height: 50px;
-                padding: 10px;
-            }
-            
-            .result-question-info {
-                min-height: 44px;
-            }
-            
-            .result-star-btn {
-                min-width: 44px;
-                min-height: 44px;
-                font-size: 24px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+        .answered-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9em;
+        }
+
+        .answered-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot-correct {
+            background: #2e7d32;
+        }
+
+        .dot-wrong {
+            background: #b22222;
+        }
+
+        .dot-pending {
+            background: #ffc107;
+        }
+
+        .dot-unanswered {
+            background: #c0c0c0;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #1e3c5c;
+        }
+        
+        .error-message {
+            text-align: center;
+            padding: 30px;
+            color: #b22222;
+            background: #fff5f5;
+            border: 2px solid #b22222;
+            margin: 20px;
+            border-radius: 8px;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            color: #808080;
+            font-style: italic;
         }
     </style>
 </head>
@@ -1133,21 +1128,21 @@
                         <div class="test-group">Промышленная безопасность</div>
                         
                         <!-- А.1 - неактивен -->
-                        <div class="test-item disabled" data-test="a1">
+                        <div class="test-item disabled" data-test="a1" onclick="return false;">
                             <span class="test-code">А.1</span>
                             <span class="test-name">Основы промышленной безопасности</span>
                             <div class="test-desc">211 вопросов</div>
                         </div>
                         
                         <!-- Б.2.1 - неактивен -->
-                        <div class="test-item disabled" data-test="b21">
+                        <div class="test-item disabled" data-test="b21" onclick="return false;">
                             <span class="test-code">Б.2.1</span>
                             <span class="test-name">Эксплуатация объектов нефтяной и газовой промышленности</span>
                             <div class="test-desc">405 вопросов</div>
                         </div>
                         
                         <!-- Б.2.3 - неактивен -->
-                        <div class="test-item disabled" data-test="b23">
+                        <div class="test-item disabled" data-test="b23" onclick="return false;">
                             <span class="test-code">Б.2.3</span>
                             <span class="test-name">Проектирование, строительство, реконструкция</span>
                             <div class="test-desc">228 вопросов</div>
@@ -1161,14 +1156,14 @@
                         </div>
                         
                         <!-- Б.2.7 - неактивен -->
-                        <div class="test-item disabled" data-test="b27">
+                        <div class="test-item disabled" data-test="b27" onclick="return false;">
                             <span class="test-code">Б.2.7</span>
                             <span class="test-name">Магистральные нефтепроводы</span>
                             <div class="test-desc">155 вопросов</div>
                         </div>
                         
                         <!-- Б.2.8 - неактивен -->
-                        <div class="test-item disabled" data-test="b28">
+                        <div class="test-item disabled" data-test="b28" onclick="return false;">
                             <span class="test-code">Б.2.8</span>
                             <span class="test-name">Магистральные газопроводы</span>
                             <div class="test-desc">132 вопроса</div>
@@ -1184,25 +1179,25 @@
                         <!-- Электробезопасность -->
                         <div class="test-group">Электробезопасность</div>
                         
-                        <div class="test-item disabled" data-test="electro2">
+                        <div class="test-item disabled" data-test="electro2" onclick="return false;">
                             <span class="test-code">2 гр.</span>
                             <span class="test-name">До и выше 1000В</span>
                             <div class="test-desc">100 вопросов</div>
                         </div>
                         
-                        <div class="test-item disabled" data-test="electro3">
+                        <div class="test-item disabled" data-test="electro3" onclick="return false;">
                             <span class="test-code">3 гр.</span>
                             <span class="test-name">До и выше 1000В</span>
                             <div class="test-desc">120 вопросов</div>
                         </div>
                         
-                        <div class="test-item disabled" data-test="electro4">
+                        <div class="test-item disabled" data-test="electro4" onclick="return false;">
                             <span class="test-code">4 гр.</span>
                             <span class="test-name">До и выше 1000В</span>
                             <div class="test-desc">140 вопросов</div>
                         </div>
                         
-                        <div class="test-item disabled" data-test="electro5">
+                        <div class="test-item disabled" data-test="electro5" onclick="return false;">
                             <span class="test-code">5 гр.</span>
                             <span class="test-name">До и выше 1000В</span>
                             <div class="test-desc">160 вопросов</div>
@@ -1218,7 +1213,6 @@
         <!-- Основной контент -->
         <div id="menu-screen">
             <h2 id="testTitle">Б.2.11 Промышленная безопасность<br>"Ремонтные, монтажные и пусконаладочные работы на опасных производственных объектах нефтегазодобычи"</h2>
-            
             <div class="menu-grid">
                 <div class="block-card" onclick="startBlock(1, 0, 40)">
                     <h3>БЛОК 1</h3>
@@ -1241,7 +1235,6 @@
                     <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
                 </div>
             </div>
-
             <div class="block-card hard-mode-card" onclick="startHardMode()">
                 <h3>ТРУДНЫЕ ВОПРОСЫ</h3>
                 <p>
@@ -1250,9 +1243,8 @@
                 </p>
                 <button class="reset-hard-btn" onclick="resetHardQuestions(event)" title="Сбросить список трудных вопросов">✕</button>
             </div>
-
             <div class="footer-note">
-                Система тестирования МилиСиловская | Версия 1.5
+                Система тестирования МилиSiLовская | Версия 1.5
             </div>
         </div>
 
@@ -1354,7 +1346,7 @@
             </button>
         </div>
 
-        <div id="exam-review-screen" style="display: none;">
+        <div id="exam-review-screen">
             <div class="review-header">
                 <button class="back-btn" onclick="showExamResults()">
                     ← К РЕЗУЛЬТАТАМ
@@ -1403,6 +1395,7 @@
 
         // Конфигурация тестов
         const TEST_CONFIGS = {
+            // А.1 Основы - 211 вопросов / 4 блока
             a1: {
                 code: 'А.1',
                 name: 'Основы промышленной безопасности',
@@ -1416,6 +1409,7 @@
                     { num: 4, start: 159, end: 211, desc: 'Вопросы 160 - 211' }
                 ]
             },
+            // Б.2.1 - 405 вопросов / 6 блоков
             b21: {
                 code: 'Б.2.1',
                 name: 'Эксплуатация объектов нефтяной и газовой промышленности',
@@ -1431,6 +1425,7 @@
                     { num: 6, start: 340, end: 405, desc: 'Вопросы 341 - 405' }
                 ]
             },
+            // Б.2.3 - 228 вопросов / 4 блока
             b23: {
                 code: 'Б.2.3',
                 name: 'Проектирование, строительство, реконструкция',
@@ -1444,6 +1439,7 @@
                     { num: 4, start: 171, end: 228, desc: 'Вопросы 172 - 228' }
                 ]
             },
+            // Б.2.6 Морские - 187 вопросов / 4 блока (АКТИВЕН)
             'b26-marine': {
                 code: 'Б.2.6',
                 name: 'Разведка и разработка морских месторождений',
@@ -1457,6 +1453,7 @@
                     { num: 4, start: 141, end: 187, desc: 'Вопросы 142 - 187' }
                 ]
             },
+            // Б.2.7 - 155 вопросов / 4 блока
             b27: {
                 code: 'Б.2.7',
                 name: 'Магистральные нефтепроводы',
@@ -1470,6 +1467,7 @@
                     { num: 4, start: 117, end: 155, desc: 'Вопросы 118 - 155' }
                 ]
             },
+            // Б.2.8 - 132 вопроса / 4 блока
             b28: {
                 code: 'Б.2.8',
                 name: 'Магистральные газопроводы',
@@ -1483,6 +1481,7 @@
                     { num: 4, start: 99, end: 132, desc: 'Вопросы 100 - 132' }
                 ]
             },
+            // Б.2.11 - 160 вопросов / 4 блока (АКТИВЕН)
             b211: {
                 code: 'Б.2.11',
                 name: 'Ремонтные, монтажные и пусконаладочные работы',
@@ -1496,6 +1495,7 @@
                     { num: 4, start: 120, end: 160, desc: 'Вопросы 121 - 160' }
                 ]
             },
+            // Тесты по электробезопасности
             electro2: {
                 code: '2 гр.',
                 name: 'Электробезопасность (2 группа)',
@@ -1577,35 +1577,6 @@
             questionStates: []
         };
 
-        // Функция для форматирования пояснений
-        function formatExplanation(text) {
-            if (!text) return text;
-            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        }
-
-        // Делаем все функции глобально доступными
-        window.toggleTestDropdown = toggleTestDropdown;
-        window.selectTest = selectTest;
-        window.startBlock = startBlock;
-        window.startExam = startExam;
-        window.startHardMode = startHardMode;
-        window.resetHardQuestions = resetHardQuestions;
-        window.showMenu = showMenu;
-        window.prevQuestion = prevQuestion;
-        window.nextQuestion = nextQuestion;
-        window.checkAnswer = checkAnswer;
-        window.toggleHard = toggleHard;
-        window.jumpToQuestion = jumpToQuestion;
-        window.nextExamQuestion = nextExamQuestion;
-        window.startReview = startReview;
-        window.showExamResults = showExamResults;
-        window.jumpToReview = jumpToReview;
-        window.prevReviewQuestion = prevReviewQuestion;
-        window.nextReviewQuestion = nextReviewQuestion;
-        window.toggleReviewHard = toggleReviewHard;
-        window.toggleExamHard = toggleExamHard;
-        window.restartExam = restartExam;
-
         // Регистрация Service Worker для PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
@@ -1662,11 +1633,13 @@
 
         // Функция для полной очистки всех экранов при переключении теста
         function resetAllScreens() {
+            // Скрываем все экраны кроме меню
             document.getElementById('menu-screen').style.display = 'block';
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('exam-screen').style.display = 'none';
             document.getElementById('exam-review-screen').style.display = 'none';
             
+            // Сбрасываем отображение элементов экзамена
             const examQuestionContainer = document.getElementById('exam-question-container');
             const examOptionsBox = document.getElementById('exam-options-box');
             const examNextBtn = document.getElementById('exam-next-btn');
@@ -1677,6 +1650,7 @@
             if (examNextBtn) examNextBtn.style.display = 'none';
             if (examResult) examResult.style.display = 'none';
             
+            // Очищаем содержимое
             const qText = document.getElementById('q-text');
             const optionsBox = document.getElementById('options-box');
             const expBox = document.getElementById('exp-box');
@@ -1698,6 +1672,7 @@
             if (reviewOptionsBox) reviewOptionsBox.innerHTML = '';
             if (reviewExpBox) reviewExpBox.innerHTML = '';
             
+            // Сбрасываем счетчики
             const qCounter = document.getElementById('q-counter');
             const scoreDisplay = document.getElementById('score-display');
             const examCounter = document.getElementById('exam-counter');
@@ -1712,6 +1687,7 @@
             if (reviewCounter) reviewCounter.innerText = '0/20';
             if (reviewHardCount) reviewHardCount.innerText = '0';
             
+            // Сбрасываем прогресс-бары
             const progressFill = document.getElementById('progress-fill');
             const examProgressFill = document.getElementById('exam-progress-fill');
             const reviewProgressFill = document.getElementById('review-progress-fill');
@@ -1720,6 +1696,7 @@
             if (examProgressFill) examProgressFill.style.width = '0%';
             if (reviewProgressFill) reviewProgressFill.style.width = '0%';
             
+            // Сбрасываем таймер
             const timerDisplay = document.getElementById('timer-display');
             if (timerDisplay) {
                 timerDisplay.innerText = '20:00';
@@ -1730,13 +1707,44 @@
             }
         }
 
-        // Выбор теста
+        // Функция для создания блоков
+        function renderBlocks(config) {
+            const container = document.getElementById('blocksContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            // Создаем блоки
+            config.blocks.forEach(block => {
+                const blockCard = document.createElement('div');
+                blockCard.className = 'block-card';
+                blockCard.setAttribute('onclick', `startBlock(${block.num}, ${block.start}, ${block.end})`);
+                blockCard.innerHTML = `
+                    <h3>БЛОК ${block.num}</h3>
+                    <p>${block.desc}</p>
+                `;
+                container.appendChild(blockCard);
+            });
+            
+            // Добавляем итоговое тестирование
+            const examCard = document.createElement('div');
+            examCard.className = 'block-card exam-card';
+            examCard.setAttribute('onclick', 'startExam()');
+            examCard.innerHTML = `
+                <h3>Итоговое тестирование</h3>
+                <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
+            `;
+            container.appendChild(examCard);
+        }
+
+        // Выбор теста (исправленная версия с полной очисткой)
         function selectTest(testId) {
             if (!TEST_CONFIGS[testId]) {
                 showNotification('Тест появится в скором времени');
                 return;
             }
             
+            // Проверяем, доступен ли тест
             if (!AVAILABLE_TESTS.includes(testId)) {
                 showNotification(`Тест "${TEST_CONFIGS[testId].name}" появится в ближайшее время`);
                 return;
@@ -1744,8 +1752,10 @@
             
             console.log('Переключение на тест:', testId);
             
+            // Принудительно сбрасываем все экраны
             resetAllScreens();
             
+            // ПОЛНАЯ ОЧИСТКА ВСЕХ ДАННЫХ
             fullBase = [];
             activeQuestions = [];
             hardQuestions = [];
@@ -1753,6 +1763,7 @@
             examAnswers = [];
             examResults = [];
             
+            // Сбрасываем индексы и счетчики
             currentIdx = 0;
             score = 0;
             examCurrentIdx = 0;
@@ -1761,22 +1772,29 @@
             answeredQuestionsCount = 0;
             reviewCurrentIdx = 0;
             
+            // Очищаем Map с состояниями ответов
             answerStates.clear();
+            
+            // Очищаем выбранные опции
             selectedOptions = [];
             
+            // Останавливаем таймер если он запущен
             if (examTimer) {
                 clearInterval(examTimer);
                 examTimer = null;
             }
             
+            // Очищаем состояние тренировки для предыдущего теста
             clearTrainingState();
             
             currentTest = testId;
             const config = TEST_CONFIGS[testId];
             
+            // Обновляем отображение
             document.getElementById('selectedTestDisplay').innerText = `${config.code} ${config.name}`;
             document.getElementById('testTitle').innerHTML = config.fullName;
             
+            // Очищаем меню и создаем новые блоки
             const menuGrid = document.querySelector('.menu-grid');
             if (menuGrid) {
                 menuGrid.innerHTML = '';
@@ -1791,6 +1809,7 @@
                     menuGrid.appendChild(blockCard);
                 });
                 
+                // Добавляем итоговое тестирование
                 const examCard = document.createElement('div');
                 examCard.className = 'block-card exam-card';
                 examCard.setAttribute('onclick', 'startExam()');
@@ -1801,25 +1820,29 @@
                 menuGrid.appendChild(examCard);
             }
             
+            // Обновляем выделение в дропдауне
             document.querySelectorAll('.test-item').forEach(item => {
                 item.classList.remove('selected');
             });
             const selectedItem = document.querySelector(`.test-item[data-test="${testId}"]`);
             if (selectedItem) selectedItem.classList.add('selected');
             
+            // Закрываем дропдаун
             document.getElementById('testDropdown').classList.remove('show');
             document.getElementById('testSelectorBtn').classList.remove('active');
             
+            // Загружаем вопросы нового теста
             loadQuestions(testId);
         }
 
-        // Загрузка вопросов
+        // Загрузка вопросов (исправленная версия с анти-кешированием)
         async function loadQuestions(testId) {
             const config = TEST_CONFIGS[testId];
             
             try {
                 console.log(`Загрузка вопросов для ${testId} из файла ${config.jsonFile}`);
                 
+                // Добавляем параметр для избежания кеширования браузером
                 const response = await fetch(`${config.jsonFile}?t=${Date.now()}`);
                 
                 if (!response.ok) {
@@ -1829,6 +1852,7 @@
                 const data = await response.json();
                 console.log('JSON загружен, ключи:', Object.keys(data));
                 
+                // Обрабатываем особый случай для b26-marine (ключ в JSON - 'b26')
                 if (testId === 'b26-marine') {
                     fullBase = data.b26 || [];
                     console.log('Загружено для Б.2.6 из ключа b26:', fullBase.length);
@@ -1844,6 +1868,7 @@
                     return;
                 }
                 
+                // Загружаем трудные вопросы для этого теста
                 const saved = localStorage.getItem(`hardQuestions_${testId}`);
                 if (saved) {
                     try {
@@ -1914,6 +1939,65 @@
                 originalOptions: undefined,
                 originalCorrect: undefined
             };
+        }
+
+        function showError(message) {
+            const menuScreen = document.getElementById('menu-screen');
+            if (!menuScreen) return;
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.innerHTML = `
+                <h3>Идет работа над обновлением базы</h3>
+                <p>${message}</p>
+            `;
+            menuScreen.insertBefore(errorDiv, menuScreen.firstChild);
+        }
+
+        function showRestoreNotification(savedTraining) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #cd5c5c;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 4px;
+                z-index: 1000;
+                cursor: pointer;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                border-left: 4px solid #ffd700;
+            `;
+            notification.innerHTML = `
+                <strong>Есть сохраненный прогресс</strong><br>
+                <small>Нажмите чтобы продолжить</small>
+            `;
+            notification.onclick = function() {
+                activeQuestions = savedTraining.activeQuestions;
+                currentIdx = savedTraining.currentIdx;
+                score = savedTraining.score;
+                
+                answerStates.clear();
+                savedTraining.questionStates.forEach(state => {
+                    if (state.answerState) {
+                        answerStates.set(state.id, state.answerState);
+                    }
+                    if (state.isHard && !hardQuestions.includes(state.id)) {
+                        hardQuestions.push(state.id);
+                    }
+                });
+                
+                initQuiz();
+                this.remove();
+            };
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 10000);
         }
 
         function loadTrainingState() {
@@ -2473,7 +2557,7 @@
             });
 
             const expBox = document.getElementById('review-exp-box');
-            if (expBox) expBox.innerHTML = formatExplanation(q.e);
+            if (expBox) expBox.innerText = q.e;
             
             updateReviewProgress();
             updateReviewPaginationActive();
@@ -2753,7 +2837,7 @@
             const expBox = document.getElementById('exp-box');
             if (expBox) {
                 if (savedState && savedState.isChecked) {
-                    expBox.innerHTML = formatExplanation(q.e);
+                    expBox.innerText = q.e;
                     expBox.style.display = 'block';
                 } else {
                     expBox.style.display = 'none';
@@ -2832,7 +2916,7 @@
 
             const expBox = document.getElementById('exp-box');
             if (expBox) {
-                expBox.innerHTML = formatExplanation(q.e);
+                expBox.innerText = q.e;
                 expBox.style.display = 'block';
             }
             
@@ -2940,6 +3024,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Загружаем тест по умолчанию (б211)
             loadQuestions('b211');
         });
     </script>

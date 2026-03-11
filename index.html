@@ -21,20 +21,10 @@
     <!-- Manifest для Android/PWA -->
     <link rel="manifest" href="manifest.json">
     
-    <!-- Splash screen для iPhone (экран загрузки) -->
+    <!-- Splash screen для iPhone -->
     <link rel="apple-touch-startup-image" href="icons/splash.png">
     
     <title>Промышленная безопасность | Система тестирования</title>
-<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-152x152.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-512x512.png">
-<link rel="icon" type="image/x-icon" href="icons/favicon.ico">
-
-<!-- Для Safari pinned tab -->
-<link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#1e3c5c">
-
-<!-- Цвет темы для браузера -->
-<meta name="theme-color" content="#1e3c5c">
-<meta name="msapplication-TileColor" content="#1e3c5c">
     <style>
         * {
             margin: 0;
@@ -54,6 +44,160 @@
             padding-bottom: env(safe-area-inset-bottom);
             padding-left: env(safe-area-inset-left);
             padding-right: env(safe-area-inset-right);
+            position: relative;
+        }
+
+        /* Экран авторизации */
+        .login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #1e3c5c 0%, #0a1a2a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+            animation: slideInUp 0.5s ease;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #1e3c5c 0%, #152f48 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .login-header h2 {
+            color: #ffd700;
+            font-size: 2em;
+            margin-bottom: 10px;
+            border: none;
+            padding: 0;
+        }
+
+        .login-header p {
+            color: #e0e0e0;
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .login-form {
+            padding: 30px 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #1e3c5c;
+            box-shadow: 0 0 0 3px rgba(30, 60, 92, 0.1);
+        }
+
+        .input-group input.error {
+            border-color: #b22222;
+            background: #fff5f5;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #1e3c5c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: #2a4a70;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 60, 92, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-error {
+            color: #b22222;
+            font-size: 0.9em;
+            margin-top: 15px;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        .login-footer {
+            background: #f5f5f5;
+            padding: 15px 20px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .login-footer p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .login-footer small {
+            color: #999;
+            font-size: 0.8em;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Скрываем основной контент до авторизации */
+        .container {
+            display: none;
+        }
+
+        .container.authenticated {
+            display: block;
         }
 
         .container {
@@ -96,6 +240,25 @@
             letter-spacing: 1px;
             border-right: 2px solid #2a4a70;
             padding-right: 20px;
+        }
+
+        /* Кнопка выхода */
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #b22222;
+            border-radius: 6px;
+            padding: 6px 15px;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+
+        .logout-btn:hover {
+            background: #b22222;
+            transform: translateY(-2px);
         }
 
         /* Селектор тестов */
@@ -392,6 +555,30 @@
 
         .hard-mode-card:hover {
             background: #5a5a5a;
+            border-color: #1e3c5c;
+        }
+
+        .stats-menu-card {
+            background: #f4b400;
+            border: 2px solid #d4a000;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .stats-menu-card h3 {
+            color: white;
+        }
+
+        .stats-menu-card p {
+            color: #fff5e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .stats-menu-card:hover {
+            background: #ffc107;
             border-color: #1e3c5c;
         }
 
@@ -969,6 +1156,641 @@
             box-shadow: 0 5px 10px rgba(244, 180, 0, 0.4);
         }
 
+        /* Стили для статистики */
+        .stats-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e3c5c;
+        }
+
+        .stats-header h3 {
+            color: #1e3c5c;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stats-header h3::before {
+            content: '📊';
+            font-size: 1.2em;
+        }
+
+        .stats-reset-btn {
+            background: #f0f0f0;
+            border: 1px solid #c0c0c0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9em;
+        }
+
+        .stats-reset-btn:hover {
+            background: #b22222;
+            color: white;
+            border-color: #8b0000;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stats-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #1e3c5c;
+        }
+
+        .stats-card.worst {
+            border-left-color: #b22222;
+        }
+
+        .stats-card-title {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stats-card-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #1e3c5c;
+        }
+
+        .stats-card.worst .stats-card-value {
+            color: #b22222;
+        }
+
+        .stats-card-label {
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .stats-questions {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .stats-question-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .stats-question-item:hover {
+            background: #f0f5ff;
+        }
+
+        .stats-question-item:last-child {
+            border-bottom: none;
+        }
+
+        .stats-question-id {
+            min-width: 50px;
+            font-weight: 700;
+            color: #1e3c5c;
+        }
+
+        .stats-question-text {
+            flex: 1;
+            margin: 0 15px;
+            font-size: 0.95em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #333;
+        }
+
+        .stats-question-count {
+            background: #b22222;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .stats-chart {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stats-chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .stats-chart-label {
+            min-width: 60px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .stats-chart-fill {
+            height: 24px;
+            background: linear-gradient(90deg, #1e3c5c, #2a4a70);
+            border-radius: 4px;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: width 0.3s ease;
+        }
+
+        .stats-chart-fill.worst {
+            background: linear-gradient(90deg, #b22222, #d32f2f);
+        }
+
+        .stats-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .stats-tab {
+            padding: 8px 20px;
+            background: none;
+            border: none;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .stats-tab:hover {
+            color: #1e3c5c;
+        }
+
+        .stats-tab.active {
+            color: #1e3c5c;
+        }
+
+        .stats-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #1e3c5c;
+            border-radius: 3px 3px 0 0;
+        }
+
+        .stats-summary {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stats-summary-item {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .stats-summary-label {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stats-summary-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #1e3c5c;
+        }
+
+        .stats-summary-value small {
+            font-size: 0.5em;
+            color: #999;
+            font-weight: normal;
+        }
+
+        .stats-badge {
+            background: #b22222;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        /* Модальное окно статистики */
+        .stats-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .stats-modal.show {
+            display: flex;
+        }
+
+        .stats-modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideInUp 0.3s ease;
+        }
+
+        .stats-modal-header {
+            background: linear-gradient(135deg, #1e3c5c 0%, #152f48 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stats-modal-header h2 {
+            color: #ffd700;
+            margin: 0;
+            padding: 0;
+            border: none;
+            font-size: 1.5em;
+        }
+
+        .stats-modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            line-height: 1;
+        }
+
+        .stats-modal-close:hover {
+            opacity: 1;
+        }
+
+        .stats-modal-body {
+            padding: 25px;
+        }
+
+        /* Анимации */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Оверлей для дропдауна */
+        .dropdown-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .dropdown-overlay.show {
+            display: block;
+        }
+
+        /* Медиа-запросы для мобильных */
+        @media (max-width: 768px) {
+            .top-panel {
+                flex-direction: column;
+                align-items: stretch;
+                padding: max(12px, env(safe-area-inset-top)) 12px 12px 12px;
+            }
+            
+            .panel-left {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            
+            .panel-left h3 {
+                font-size: 1.1em;
+                border-right: none;
+                border-bottom: 2px solid #2a4a70;
+                padding-right: 0;
+                padding-bottom: 6px;
+                margin-bottom: 4px;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .logout-btn {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .test-selector {
+                width: 100%;
+                max-width: none;
+                min-width: auto;
+            }
+            
+            .test-selector-btn {
+                padding: 10px 12px;
+                font-size: 0.9em;
+                min-height: 50px;
+                width: 100%;
+            }
+            
+            .test-selector-btn span:first-child {
+                white-space: normal;
+                word-break: break-word;
+                line-height: 1.3;
+                max-width: calc(100% - 30px);
+            }
+            
+            .test-dropdown {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 400px;
+                max-height: 70vh;
+                margin-top: 0;
+                border: 3px solid #ffd700;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+                z-index: 1001;
+            }
+            
+            .test-item {
+                padding: 12px 15px;
+                font-size: 0.95em;
+                border-bottom: 1px solid #2a4a70;
+            }
+            
+            .test-group {
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+            
+            .test-code {
+                font-size: 0.95em;
+            }
+            
+            .test-name {
+                font-size: 0.95em;
+            }
+            
+            .test-desc {
+                font-size: 0.8em;
+            }
+        }
+
+        @media (max-width: 640px) {
+            #menu-screen, #quiz-screen, #exam-screen, #exam-review-screen {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.2em;
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .block-card {
+                padding: 12px 10px;
+            }
+
+            .block-card h3 {
+                font-size: 1.1em;
+                margin-bottom: 4px;
+            }
+
+            .block-card p {
+                font-size: 0.85em;
+            }
+
+            .exam-card {
+                grid-column: span 1;
+            }
+
+            .hard-mode-card, .stats-menu-card {
+                margin-top: 10px;
+            }
+
+            .hard-mode-card p, .stats-menu-card p {
+                font-size: 0.9em;
+            }
+
+            .reset-hard-btn {
+                width: 22px;
+                height: 22px;
+                font-size: 14px;
+            }
+
+            .quiz-header, .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            #q-text, #exam-q-text, #review-q-text {
+                font-size: 1.1em;
+                padding-right: 30px;
+            }
+
+            .stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .timer-container {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .pagination {
+                max-height: 200px;
+                overflow-y: auto;
+                justify-content: flex-start;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .stats-modal-content {
+                max-height: 95vh;
+            }
+            
+            .stats-summary {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .stats-summary-item {
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-panel {
+                padding: max(10px, env(safe-area-inset-top)) 10px 10px 10px;
+            }
+            
+            .panel-left h3 {
+                font-size: 1em;
+                padding-bottom: 5px;
+            }
+            
+            .test-selector-btn {
+                padding: 8px 10px;
+                font-size: 0.85em;
+                min-height: 46px;
+            }
+            
+            .test-selector-btn span:first-child {
+                -webkit-line-clamp: 2;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                max-width: calc(100% - 25px);
+            }
+            
+            .test-dropdown {
+                width: 95%;
+                max-height: 65vh;
+            }
+            
+            .test-item {
+                padding: 10px 12px;
+            }
+            
+            .login-box {
+                max-width: 100%;
+            }
+            
+            .login-header {
+                padding: 25px 15px;
+            }
+            
+            .login-header h2 {
+                font-size: 1.8em;
+            }
+            
+            .login-form {
+                padding: 25px 20px;
+            }
+            
+            .input-group input {
+                padding: 10px 12px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .panel-left h3 {
+                font-size: 0.95em;
+            }
+            
+            .test-selector-btn {
+                padding: 8px 8px;
+                font-size: 0.8em;
+                min-height: 44px;
+            }
+            
+            .test-selector-btn span:first-child {
+                max-width: calc(100% - 22px);
+            }
+            
+            .test-item {
+                padding: 8px 10px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Для iPhone с челкой */
+        @supports (padding-top: constant(safe-area-inset-top)) or (padding-top: env(safe-area-inset-top)) {
+            .top-panel {
+                padding-top: max(12px, constant(safe-area-inset-top));
+                padding-top: max(12px, env(safe-area-inset-top));
+                padding-left: max(12px, constant(safe-area-inset-left));
+                padding-left: max(12px, env(safe-area-inset-left));
+                padding-right: max(12px, constant(safe-area-inset-right));
+                padding-right: max(12px, env(safe-area-inset-right));
+            }
+            
+            .login-container {
+                padding-top: constant(safe-area-inset-top);
+                padding-top: env(safe-area-inset-top);
+            }
+        }
+
         .footer-note {
             margin-top: 20px;
             text-align: center;
@@ -1045,171 +1867,36 @@
             color: #808080;
             font-style: italic;
         }
-
-        /* ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ */
-        @media (max-width: 768px) {
-            .top-panel {
-                flex-direction: column;
-                align-items: stretch;
-                padding: 10px;
-            }
-            
-            .panel-left {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-            
-            .panel-left h3 {
-                border-right: none;
-                border-bottom: 2px solid #2a4a70;
-                padding-right: 0;
-                padding-bottom: 8px;
-                text-align: center;
-                font-size: 1.1em;
-            }
-            
-            /* ИСПРАВЛЕНИЕ ДЛЯ ВЕРХНЕГО СЕЛЕКТОРА */
-            .test-selector {
-                min-width: auto !important;
-                width: 100% !important;
-                max-width: 100% !important;
-            }
-            
-            .test-selector-btn {
-                padding: 10px 12px !important;
-                font-size: 0.9em !important;
-                min-height: 44px;
-                white-space: normal;
-                word-wrap: break-word;
-                line-height: 1.3;
-                width: 100%;
-            }
-            
-            #selectedTestDisplay {
-                font-size: 0.9em;
-                word-break: break-word;
-                padding-right: 5px;
-                flex: 1;
-            }
-            
-            .test-selector-btn .arrow {
-                font-size: 1em;
-                flex-shrink: 0;
-                margin-left: 5px;
-            }
-            
-            .test-dropdown {
-                position: fixed !important;
-                top: 70px !important;
-                left: 10px !important;
-                right: 10px !important;
-                width: auto !important;
-                max-height: 70vh !important;
-                z-index: 9999 !important;
-            }
-            
-            .test-item {
-                padding: 12px 10px !important;
-                white-space: normal;
-                word-wrap: break-word;
-            }
-            
-            .test-code {
-                display: inline-block;
-                min-width: 40px;
-            }
-            
-            .test-name {
-                white-space: normal;
-                word-wrap: break-word;
-                font-size: 0.9em;
-            }
-            
-            .test-desc {
-                margin-left: 48px;
-                font-size: 0.8em;
-            }
-            
-            #menu-screen {
-                padding: 20px;
-            }
-
-            h2 {
-                font-size: 1.4em;
-            }
-
-            .menu-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .exam-card {
-                grid-column: span 1;
-            }
-
-            .quiz-header, .review-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            #q-text, #exam-q-text, #review-q-text {
-                font-size: 1.1em;
-            }
-
-            .stats {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .timer-container {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-            }
-
-            .pagination {
-                max-height: 200px;
-                overflow-y: auto;
-                justify-content: flex-start;
-            }
-            
-            .block-card {
-                padding: 20px 10px;
-            }
-            
-            .block-card h3 {
-                font-size: 1.2em;
-            }
-        }
-
-        /* Дополнительные исправления для очень маленьких экранов */
-        @media (max-width: 480px) {
-            .test-selector-btn {
-                font-size: 0.85em !important;
-                padding: 8px 10px !important;
-            }
-            
-            .test-code {
-                min-width: 35px;
-                font-size: 0.85em;
-            }
-            
-            .test-desc {
-                margin-left: 43px;
-                font-size: 0.75em;
-            }
-            
-            .test-dropdown {
-                top: 65px !important;
-            }
-        }
     </style>
 </head>
 <body>
+    <!-- Экран авторизации -->
+    <div id="login-screen" class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h2>PRO100 TEST</h2>
+                <p>Вход в систему тестирования</p>
+            </div>
+            <div class="login-form">
+                <div class="input-group">
+                    <label for="username">Логин</label>
+                    <input type="text" id="username" placeholder="Введите логин" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" placeholder="Введите пароль">
+                </div>
+                <button class="login-btn" onclick="login()">Войти</button>
+                <div id="login-error" class="login-error"></div>
+            </div>
+            <div class="login-footer">
+                <p>Демо-доступ: admin / admin</p>
+                <small>В демо-режиме показывается по 10 вопросов</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной контейнер -->
     <div class="container">
         <!-- Верхняя панель с навигацией -->
         <div class="top-panel">
@@ -1303,6 +1990,9 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Кнопка выхода -->
+                <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
             </div>
         </div>
 
@@ -1341,6 +2031,13 @@
                     <span class="hard-star">★</span>
                 </p>
                 <button class="reset-hard-btn" onclick="resetHardQuestions(event)" title="Сбросить список трудных вопросов">✕</button>
+            </div>
+            <div class="block-card stats-menu-card" onclick="showStats()">
+                <h3>📊 МОЯ СТАТИСТИКА</h3>
+                <p>
+                    Ошибки: <span id="stats-total-errors" class="hard-count">0</span>
+                    <span class="hard-star">⚠️</span>
+                </p>
             </div>
             <div class="footer-note">
                 Система тестирования МилиSiLовская | Версия 1.5
@@ -1445,7 +2142,7 @@
             </button>
         </div>
 
-        <div id="exam-review-screen" style="display: none;">
+        <div id="exam-review-screen">
             <div class="review-header">
                 <button class="back-btn" onclick="showExamResults()">
                     ← К РЕЗУЛЬТАТАМ
@@ -1488,13 +2185,403 @@
         </div>
     </div>
 
+    <!-- Модальное окно статистики -->
+    <div id="statsModal" class="stats-modal">
+        <div class="stats-modal-content">
+            <div class="stats-modal-header">
+                <h2>📊 Моя статистика</h2>
+                <button class="stats-modal-close" onclick="closeStats()">&times;</button>
+            </div>
+            <div class="stats-modal-body" id="statsContent">
+                <!-- Статистика будет загружаться сюда -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Массив доступных тестов (для которых есть JSON-файлы)
+        // ========== АВТОРИЗАЦИЯ ==========
+        const USERS = {
+            'admin': 'admin'  // Только один демо-пользователь
+        };
+
+        // ========== ОГРАНИЧЕНИЕ ВОПРОСОВ ДЛЯ ДЕМО-РЕЖИМА ==========
+        function getLimitedQuestions(questions, limit = 10) {
+            if (!questions || questions.length === 0) return [];
+            
+            // Перемешиваем и берем первые limit вопросов
+            const shuffled = [...questions].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, limit);
+        }
+
+        // Проверка авторизации при загрузке
+        function checkAuth() {
+            const isAuthenticated = localStorage.getItem('authenticated') === 'true';
+            const username = localStorage.getItem('username');
+            
+            if (isAuthenticated && username) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.querySelector('.container').classList.add('authenticated');
+                if (username === 'admin') {
+                    showNotification('Добро пожаловать в демо-режим! Показано по 10 вопросов в блоке');
+                } else {
+                    showNotification(`С возвращением, ${username}!`);
+                }
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+                document.querySelector('.container').classList.remove('authenticated');
+            }
+        }
+
+        // Функция входа
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('login-error');
+            
+            errorElement.textContent = '';
+            document.getElementById('username').classList.remove('error');
+            document.getElementById('password').classList.remove('error');
+            
+            if (!username) {
+                errorElement.textContent = 'Введите логин';
+                document.getElementById('username').classList.add('error');
+                return;
+            }
+            
+            if (!password) {
+                errorElement.textContent = 'Введите пароль';
+                document.getElementById('password').classList.add('error');
+                return;
+            }
+            
+            if (USERS[username] && USERS[username] === password) {
+                localStorage.setItem('authenticated', 'true');
+                localStorage.setItem('username', username);
+                localStorage.setItem('loginTime', new Date().toISOString());
+                
+                const loginScreen = document.getElementById('login-screen');
+                loginScreen.style.animation = 'fadeOut 0.3s ease forwards';
+                
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    document.querySelector('.container').classList.add('authenticated');
+                    
+                    if (username === 'admin') {
+                        showNotification('Добро пожаловать в демо-режим! Показано по 10 вопросов в блоке');
+                    } else {
+                        showNotification(`Добро пожаловать, ${username}!`);
+                    }
+                }, 300);
+            } else {
+                errorElement.textContent = 'Неверный логин или пароль';
+                document.getElementById('username').classList.add('error');
+                document.getElementById('password').classList.add('error');
+                document.getElementById('password').value = '';
+                
+                document.querySelector('.login-box').style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    document.querySelector('.login-box').style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Функция выхода
+        function logout() {
+            if (confirm('Вы действительно хотите выйти?')) {
+                localStorage.removeItem('authenticated');
+                localStorage.removeItem('username');
+                localStorage.removeItem('loginTime');
+                
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('login-screen').style.animation = '';
+                document.querySelector('.container').classList.remove('authenticated');
+                
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                
+                showNotification('Вы вышли из системы');
+            }
+        }
+
+        // ========== СТАТИСТИКА ==========
+
+        // Получение статистики пользователя
+        function getUserStats(username) {
+            const stats = localStorage.getItem(`stats_${username}`);
+            return stats ? JSON.parse(stats) : {
+                totalAnswers: 0,
+                correctAnswers: 0,
+                wrongAnswers: 0,
+                questionsStats: {},
+                lastTestDate: null,
+                testsCompleted: 0,
+                worstQuestions: []
+            };
+        }
+
+        // Сохранение статистики пользователя
+        function saveUserStats(username, stats) {
+            localStorage.setItem(`stats_${username}`, JSON.stringify(stats));
+        }
+
+        // Обновление статистики при ответе на вопрос
+        function updateStats(questionId, isCorrect) {
+            const username = localStorage.getItem('username');
+            if (!username) return;
+            
+            const stats = getUserStats(username);
+            
+            if (!stats.questionsStats[questionId]) {
+                stats.questionsStats[questionId] = {
+                    wrong: 0,
+                    correct: 0,
+                    lastSeen: Date.now()
+                };
+            }
+            
+            if (isCorrect) {
+                stats.questionsStats[questionId].correct++;
+                stats.correctAnswers++;
+            } else {
+                stats.questionsStats[questionId].wrong++;
+                stats.wrongAnswers++;
+            }
+            
+            stats.questionsStats[questionId].lastSeen = Date.now();
+            stats.totalAnswers++;
+            
+            updateWorstQuestions(stats);
+            stats.lastTestDate = new Date().toISOString();
+            
+            saveUserStats(username, stats);
+            updateStatsDisplay();
+        }
+
+        // Обновление топа вопросов с частыми ошибками
+        function updateWorstQuestions(stats) {
+            const questionsWithErrors = [];
+            
+            for (const [qId, qStats] of Object.entries(stats.questionsStats)) {
+                if (qStats.wrong > 0) {
+                    const errorRate = qStats.wrong / (qStats.wrong + qStats.correct) * 100;
+                    questionsWithErrors.push({
+                        id: parseInt(qId),
+                        wrong: qStats.wrong,
+                        correct: qStats.correct,
+                        total: qStats.wrong + qStats.correct,
+                        errorRate: errorRate
+                    });
+                }
+            }
+            
+            questionsWithErrors.sort((a, b) => b.wrong - a.wrong);
+            stats.worstQuestions = questionsWithErrors.slice(0, 10);
+        }
+
+        // Функция для форматирования времени
+        function timeAgo(timestamp) {
+            const now = Date.now();
+            const diff = now - timestamp;
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (days > 0) return `${days} дн. назад`;
+            if (hours > 0) return `${hours} ч. назад`;
+            if (minutes > 0) return `${minutes} мин. назад`;
+            return 'только что';
+        }
+
+        // Показать статистику
+        function showStats() {
+            const username = localStorage.getItem('username');
+            if (!username) {
+                showNotification('Сначала войдите в систему');
+                return;
+            }
+            
+            const stats = getUserStats(username);
+            const modal = document.getElementById('statsModal');
+            const content = document.getElementById('statsContent');
+            
+            if (!stats.totalAnswers) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <div style="font-size: 3em; margin-bottom: 20px;">📊</div>
+                        <h3>У вас пока нет статистики</h3>
+                        <p>Начните отвечать на вопросы, чтобы увидеть свою статистику</p>
+                    </div>
+                `;
+                modal.classList.add('show');
+                return;
+            }
+            
+            const successRate = ((stats.correctAnswers / stats.totalAnswers) * 100).toFixed(1);
+            const errorRate = ((stats.wrongAnswers / stats.totalAnswers) * 100).toFixed(1);
+            
+            let questionsHtml = '';
+            if (stats.worstQuestions.length > 0) {
+                stats.worstQuestions.forEach((q, index) => {
+                    const question = fullBase.find(qb => qb.id === q.id);
+                    if (question) {
+                        questionsHtml += `
+                            <div class="stats-question-item" onclick="jumpToQuestionFromStats(${q.id})">
+                                <span class="stats-question-id">#${q.id}</span>
+                                <span class="stats-question-text">${question.q.substring(0, 60)}...</span>
+                                <span class="stats-question-count">${q.wrong} ✗</span>
+                            </div>
+                        `;
+                    }
+                });
+            } else {
+                questionsHtml = '<div style="text-align: center; padding: 20px; color: #666;">Пока нет ошибок! Так держать! 🎉</div>';
+            }
+            
+            const blocksStats = {};
+            for (let i = 1; i <= 4; i++) {
+                blocksStats[i] = { wrong: 0, correct: 0, total: 0 };
+            }
+            
+            for (const [qId, qStats] of Object.entries(stats.questionsStats)) {
+                const id = parseInt(qId);
+                let block = 1;
+                if (id <= 40) block = 1;
+                else if (id <= 80) block = 2;
+                else if (id <= 120) block = 3;
+                else block = 4;
+                
+                blocksStats[block].wrong += qStats.wrong;
+                blocksStats[block].correct += qStats.correct;
+                blocksStats[block].total += qStats.wrong + qStats.correct;
+            }
+            
+            let blocksHtml = '';
+            for (let i = 1; i <= 4; i++) {
+                const block = blocksStats[i];
+                if (block.total > 0) {
+                    const blockErrorRate = (block.wrong / block.total * 100).toFixed(1);
+                    blocksHtml += `
+                        <div class="stats-chart-bar">
+                            <span class="stats-chart-label">Блок ${i}</span>
+                            <div style="flex: 1; margin-left: 10px;">
+                                <div class="stats-chart-fill ${blockErrorRate > 30 ? 'worst' : ''}" 
+                                     style="width: ${blockErrorRate}%;">
+                                    ${blockErrorRate}% ошибок
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            content.innerHTML = `
+                <div class="stats-summary">
+                    <div class="stats-summary-item">
+                        <div class="stats-summary-label">Всего ответов</div>
+                        <div class="stats-summary-value">${stats.totalAnswers}</div>
+                    </div>
+                    <div class="stats-summary-item">
+                        <div class="stats-summary-label">Правильных</div>
+                        <div class="stats-summary-value" style="color: #2e7d32;">${stats.correctAnswers} <small>(${successRate}%)</small></div>
+                    </div>
+                    <div class="stats-summary-item">
+                        <div class="stats-summary-label">Ошибок</div>
+                        <div class="stats-summary-value" style="color: #b22222;">${stats.wrongAnswers} <small>(${errorRate}%)</small></div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stats-card">
+                        <div class="stats-card-title">Самая частая ошибка</div>
+                        <div class="stats-card-value">${stats.worstQuestions[0] ? stats.worstQuestions[0].wrong : 0}</div>
+                        <div class="stats-card-label">раз ошиблись в одном вопросе</div>
+                    </div>
+                    <div class="stats-card worst">
+                        <div class="stats-card-title">Тяжелый вопрос</div>
+                        <div class="stats-card-value">${stats.worstQuestions[0] ? '#' + stats.worstQuestions[0].id : '-'}</div>
+                        <div class="stats-card-label">ID вопроса с частыми ошибками</div>
+                    </div>
+                </div>
+                
+                <div class="stats-chart">
+                    <h4 style="margin-bottom: 15px; color: #1e3c5c;">Процент ошибок по блокам</h4>
+                    ${blocksHtml || '<p style="color: #666;">Нет данных</p>'}
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #1e3c5c;">⚠️ Частые ошибки</h4>
+                    <div class="stats-questions">
+                        ${questionsHtml}
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                    <button class="reset-hard-btn" onclick="resetStats()" style="position: relative; top: 0; right: 0; width: auto; height: auto; padding: 8px 15px; border-radius: 6px; background: #b22222; color: white;">
+                        Сбросить статистику
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('show');
+        }
+
+        // Закрыть статистику
+        function closeStats() {
+            document.getElementById('statsModal').classList.remove('show');
+        }
+
+        // Переход к вопросу из статистики
+        function jumpToQuestionFromStats(questionId) {
+            closeStats();
+            
+            const question = fullBase.find(q => q.id === questionId);
+            if (!question) return;
+            
+            let blockNum, start, end;
+            if (questionId <= 40) { blockNum = 1; start = 0; end = 40; }
+            else if (questionId <= 80) { blockNum = 2; start = 40; end = 80; }
+            else if (questionId <= 120) { blockNum = 3; start = 80; end = 120; }
+            else { blockNum = 4; start = 120; end = 160; }
+            
+            startBlock(blockNum, start, end);
+            
+            setTimeout(() => {
+                const activeIndex = activeQuestions.findIndex(q => q.id === questionId);
+                if (activeIndex !== -1) {
+                    jumpToQuestion(activeIndex);
+                    showNotification(`Вопрос #${questionId} - поработаем над ошибками!`);
+                }
+            }, 500);
+        }
+
+        // Сброс статистики
+        function resetStats() {
+            if (confirm('Вы уверены, что хотите сбросить всю статистику?')) {
+                const username = localStorage.getItem('username');
+                localStorage.removeItem(`stats_${username}`);
+                updateStatsDisplay();
+                closeStats();
+                showNotification('Статистика сброшена');
+            }
+        }
+
+        // Обновление отображения статистики
+        function updateStatsDisplay() {
+            const username = localStorage.getItem('username');
+            if (!username) return;
+            
+            const stats = getUserStats(username);
+            const totalErrorsElement = document.getElementById('stats-total-errors');
+            if (totalErrorsElement) {
+                totalErrorsElement.textContent = stats.wrongAnswers || 0;
+            }
+        }
+
+        // ========== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ==========
         const AVAILABLE_TESTS = ['b211', 'b26-marine'];
 
-        // Конфигурация тестов
         const TEST_CONFIGS = {
-            // А.1 Основы - 211 вопросов / 4 блока
             a1: {
                 code: 'А.1',
                 name: 'Основы промышленной безопасности',
@@ -1508,7 +2595,6 @@
                     { num: 4, start: 159, end: 211, desc: 'Вопросы 160 - 211' }
                 ]
             },
-            // Б.2.1 - 405 вопросов / 6 блоков
             b21: {
                 code: 'Б.2.1',
                 name: 'Эксплуатация объектов нефтяной и газовой промышленности',
@@ -1524,7 +2610,6 @@
                     { num: 6, start: 340, end: 405, desc: 'Вопросы 341 - 405' }
                 ]
             },
-            // Б.2.3 - 228 вопросов / 4 блока
             b23: {
                 code: 'Б.2.3',
                 name: 'Проектирование, строительство, реконструкция',
@@ -1538,7 +2623,6 @@
                     { num: 4, start: 171, end: 228, desc: 'Вопросы 172 - 228' }
                 ]
             },
-            // Б.2.6 Морские - 187 вопросов / 4 блока (АКТИВЕН)
             'b26-marine': {
                 code: 'Б.2.6',
                 name: 'Разведка и разработка морских месторождений',
@@ -1552,7 +2636,6 @@
                     { num: 4, start: 141, end: 187, desc: 'Вопросы 142 - 187' }
                 ]
             },
-            // Б.2.7 - 155 вопросов / 4 блока
             b27: {
                 code: 'Б.2.7',
                 name: 'Магистральные нефтепроводы',
@@ -1566,7 +2649,6 @@
                     { num: 4, start: 117, end: 155, desc: 'Вопросы 118 - 155' }
                 ]
             },
-            // Б.2.8 - 132 вопроса / 4 блока
             b28: {
                 code: 'Б.2.8',
                 name: 'Магистральные газопроводы',
@@ -1580,7 +2662,6 @@
                     { num: 4, start: 99, end: 132, desc: 'Вопросы 100 - 132' }
                 ]
             },
-            // Б.2.11 - 160 вопросов / 4 блока (АКТИВЕН)
             b211: {
                 code: 'Б.2.11',
                 name: 'Ремонтные, монтажные и пусконаладочные работы',
@@ -1594,7 +2675,6 @@
                     { num: 4, start: 120, end: 160, desc: 'Вопросы 121 - 160' }
                 ]
             },
-            // Тесты по электробезопасности
             electro2: {
                 code: '2 гр.',
                 name: 'Электробезопасность (2 группа)',
@@ -1679,7 +2759,6 @@
         // Функция для форматирования пояснений (звездочки в жирный текст)
         function formatExplanation(text) {
             if (!text) return text;
-            // Заменяем **текст** на <strong>текст</strong>
             return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         }
 
@@ -1721,8 +2800,30 @@
         function toggleTestDropdown() {
             const menu = document.getElementById('testDropdown');
             const btn = document.getElementById('testSelectorBtn');
+            const isMobile = window.innerWidth <= 768;
+            
             menu.classList.toggle('show');
             btn.classList.toggle('active');
+            
+            if (isMobile && menu.classList.contains('show')) {
+                let overlay = document.querySelector('.dropdown-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.className = 'dropdown-overlay';
+                    document.body.appendChild(overlay);
+                }
+                overlay.classList.add('show');
+                overlay.onclick = function() {
+                    menu.classList.remove('show');
+                    btn.classList.remove('active');
+                    this.classList.remove('show');
+                };
+            } else {
+                const overlay = document.querySelector('.dropdown-overlay');
+                if (overlay) {
+                    overlay.classList.remove('show');
+                }
+            }
         }
 
         // Закрытие дропдауна при клике вне его
@@ -1734,18 +2835,18 @@
             if (selector && !selector.contains(event.target)) {
                 if (menu) menu.classList.remove('show');
                 if (btn) btn.classList.remove('active');
+                const overlay = document.querySelector('.dropdown-overlay');
+                if (overlay) overlay.classList.remove('show');
             }
         });
 
         // Функция для полной очистки всех экранов при переключении теста
         function resetAllScreens() {
-            // Скрываем все экраны кроме меню
             document.getElementById('menu-screen').style.display = 'block';
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('exam-screen').style.display = 'none';
             document.getElementById('exam-review-screen').style.display = 'none';
             
-            // Сбрасываем отображение элементов экзамена
             const examQuestionContainer = document.getElementById('exam-question-container');
             const examOptionsBox = document.getElementById('exam-options-box');
             const examNextBtn = document.getElementById('exam-next-btn');
@@ -1756,7 +2857,6 @@
             if (examNextBtn) examNextBtn.style.display = 'none';
             if (examResult) examResult.style.display = 'none';
             
-            // Очищаем содержимое
             const qText = document.getElementById('q-text');
             const optionsBox = document.getElementById('options-box');
             const expBox = document.getElementById('exp-box');
@@ -1778,7 +2878,6 @@
             if (reviewOptionsBox) reviewOptionsBox.innerHTML = '';
             if (reviewExpBox) reviewExpBox.innerHTML = '';
             
-            // Сбрасываем счетчики
             const qCounter = document.getElementById('q-counter');
             const scoreDisplay = document.getElementById('score-display');
             const examCounter = document.getElementById('exam-counter');
@@ -1793,7 +2892,6 @@
             if (reviewCounter) reviewCounter.innerText = '0/20';
             if (reviewHardCount) reviewHardCount.innerText = '0';
             
-            // Сбрасываем прогресс-бары
             const progressFill = document.getElementById('progress-fill');
             const examProgressFill = document.getElementById('exam-progress-fill');
             const reviewProgressFill = document.getElementById('review-progress-fill');
@@ -1802,7 +2900,6 @@
             if (examProgressFill) examProgressFill.style.width = '0%';
             if (reviewProgressFill) reviewProgressFill.style.width = '0%';
             
-            // Сбрасываем таймер
             const timerDisplay = document.getElementById('timer-display');
             if (timerDisplay) {
                 timerDisplay.innerText = '20:00';
@@ -1813,44 +2910,13 @@
             }
         }
 
-        // Функция для создания блоков
-        function renderBlocks(config) {
-            const container = document.getElementById('blocksContainer');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            // Создаем блоки
-            config.blocks.forEach(block => {
-                const blockCard = document.createElement('div');
-                blockCard.className = 'block-card';
-                blockCard.setAttribute('onclick', `startBlock(${block.num}, ${block.start}, ${block.end})`);
-                blockCard.innerHTML = `
-                    <h3>БЛОК ${block.num}</h3>
-                    <p>${block.desc}</p>
-                `;
-                container.appendChild(blockCard);
-            });
-            
-            // Добавляем итоговое тестирование
-            const examCard = document.createElement('div');
-            examCard.className = 'block-card exam-card';
-            examCard.setAttribute('onclick', 'startExam()');
-            examCard.innerHTML = `
-                <h3>Итоговое тестирование</h3>
-                <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
-            `;
-            container.appendChild(examCard);
-        }
-
-        // Выбор теста (исправленная версия с полной очисткой)
+        // Выбор теста
         function selectTest(testId) {
             if (!TEST_CONFIGS[testId]) {
                 showNotification('Тест появится в скором времени');
                 return;
             }
             
-            // Проверяем, доступен ли тест
             if (!AVAILABLE_TESTS.includes(testId)) {
                 showNotification(`Тест "${TEST_CONFIGS[testId].name}" появится в ближайшее время`);
                 return;
@@ -1858,10 +2924,8 @@
             
             console.log('Переключение на тест:', testId);
             
-            // Принудительно сбрасываем все экраны
             resetAllScreens();
             
-            // ПОЛНАЯ ОЧИСТКА ВСЕХ ДАННЫХ
             fullBase = [];
             activeQuestions = [];
             hardQuestions = [];
@@ -1869,7 +2933,6 @@
             examAnswers = [];
             examResults = [];
             
-            // Сбрасываем индексы и счетчики
             currentIdx = 0;
             score = 0;
             examCurrentIdx = 0;
@@ -1878,29 +2941,31 @@
             answeredQuestionsCount = 0;
             reviewCurrentIdx = 0;
             
-            // Очищаем Map с состояниями ответов
             answerStates.clear();
-            
-            // Очищаем выбранные опции
             selectedOptions = [];
             
-            // Останавливаем таймер если он запущен
             if (examTimer) {
                 clearInterval(examTimer);
                 examTimer = null;
             }
             
-            // Очищаем состояние тренировки для предыдущего теста
             clearTrainingState();
             
             currentTest = testId;
             const config = TEST_CONFIGS[testId];
             
-            // Обновляем отображение
-            document.getElementById('selectedTestDisplay').innerText = `${config.code} ${config.name}`;
+            let displayName = `${config.code} ${config.name}`;
+            if (window.innerWidth <= 480) {
+                const shortNames = {
+                    'b211': 'Б.2.11 Ремонтные работы',
+                    'b26-marine': 'Б.2.6 Морские'
+                };
+                displayName = shortNames[testId] || `${config.code} ${config.name}`;
+            }
+            
+            document.getElementById('selectedTestDisplay').innerText = displayName;
             document.getElementById('testTitle').innerHTML = config.fullName;
             
-            // Очищаем меню и создаем новые блоки
             const menuGrid = document.querySelector('.menu-grid');
             if (menuGrid) {
                 menuGrid.innerHTML = '';
@@ -1915,7 +2980,6 @@
                     menuGrid.appendChild(blockCard);
                 });
                 
-                // Добавляем итоговое тестирование
                 const examCard = document.createElement('div');
                 examCard.className = 'block-card exam-card';
                 examCard.setAttribute('onclick', 'startExam()');
@@ -1926,29 +2990,27 @@
                 menuGrid.appendChild(examCard);
             }
             
-            // Обновляем выделение в дропдауне
             document.querySelectorAll('.test-item').forEach(item => {
                 item.classList.remove('selected');
             });
             const selectedItem = document.querySelector(`.test-item[data-test="${testId}"]`);
             if (selectedItem) selectedItem.classList.add('selected');
             
-            // Закрываем дропдаун
             document.getElementById('testDropdown').classList.remove('show');
             document.getElementById('testSelectorBtn').classList.remove('active');
+            const overlay = document.querySelector('.dropdown-overlay');
+            if (overlay) overlay.classList.remove('show');
             
-            // Загружаем вопросы нового теста
             loadQuestions(testId);
         }
 
-        // Загрузка вопросов (исправленная версия с анти-кешированием)
+        // Загрузка вопросов
         async function loadQuestions(testId) {
             const config = TEST_CONFIGS[testId];
             
             try {
                 console.log(`Загрузка вопросов для ${testId} из файла ${config.jsonFile}`);
                 
-                // Добавляем параметр для избежания кеширования браузером
                 const response = await fetch(`${config.jsonFile}?t=${Date.now()}`);
                 
                 if (!response.ok) {
@@ -1958,7 +3020,6 @@
                 const data = await response.json();
                 console.log('JSON загружен, ключи:', Object.keys(data));
                 
-                // Обрабатываем особый случай для b26-marine (ключ в JSON - 'b26')
                 if (testId === 'b26-marine') {
                     fullBase = data.b26 || [];
                     console.log('Загружено для Б.2.6 из ключа b26:', fullBase.length);
@@ -1974,7 +3035,6 @@
                     return;
                 }
                 
-                // Загружаем трудные вопросы для этого теста
                 const saved = localStorage.getItem(`hardQuestions_${testId}`);
                 if (saved) {
                     try {
@@ -2184,10 +3244,20 @@
                 }
             }
             
-            activeQuestions = fullBase.slice(start, end).map(q => ({
+            // Берем вопросы из блока
+            let blockQuestions = fullBase.slice(start, end).map(q => ({
                 ...q,
                 c: [...q.c]
-            })).map(q => shuffleQuestionOptions(q)).sort(() => Math.random() - 0.5);
+            }));
+            
+            // Для демо-режима (admin) ограничиваем до 10 вопросов
+            const username = localStorage.getItem('username');
+            if (username === 'admin') {
+                blockQuestions = getLimitedQuestions(blockQuestions, 10);
+                showNotification(`Демо-режим: показаны 10 случайных вопросов из ${end - start}`);
+            }
+            
+            activeQuestions = blockQuestions.map(q => shuffleQuestionOptions(q)).sort(() => Math.random() - 0.5);
             
             answerStates.clear();
             trainingState.blockNum = num;
@@ -2201,10 +3271,18 @@
                 return;
             }
             
-            activeQuestions = fullBase.filter(q => hardQuestions.includes(q.id)).map(q => ({
+            let hardQuestionsList = fullBase.filter(q => hardQuestions.includes(q.id)).map(q => ({
                 ...q,
                 c: [...q.c]
-            })).map(q => shuffleQuestionOptions(q));
+            }));
+            
+            // Для демо-режима ограничиваем до 10 вопросов
+            const username = localStorage.getItem('username');
+            if (username === 'admin') {
+                hardQuestionsList = getLimitedQuestions(hardQuestionsList, 10);
+            }
+            
+            activeQuestions = hardQuestionsList.map(q => shuffleQuestionOptions(q));
             
             if (activeQuestions.length === 0) {
                 alert('Нет отмеченных вопросов. Отмечайте сложные вопросы звездочкой!');
@@ -2227,12 +3305,16 @@
                 examTimer = null;
             }
             
-            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q));
+            // Для демо-режима берем 10 вопросов вместо 20
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, examSize).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
-            examTimeLeft = 1200;
-            examAnswers = new Array(20).fill(null);
-            examResults = new Array(20).fill(null);
+            examTimeLeft = username === 'admin' ? 600 : 1200; // 10 минут для демо
+            examAnswers = new Array(examSize).fill(null);
+            examResults = new Array(examSize).fill(null);
             answeredQuestionsCount = 0;
             
             document.getElementById('menu-screen').style.display = 'none';
@@ -2254,6 +3336,10 @@
             if (stats) stats.style.display = 'flex';
             if (progressContainer) progressContainer.style.display = 'block';
             
+            // Обновляем счетчик
+            const examCounter = document.getElementById('exam-counter');
+            if (examCounter) examCounter.innerText = `0/${examSize}`;
+            
             startExamTimer();
             loadExamQuestion();
         }
@@ -2264,12 +3350,15 @@
                 examTimer = null;
             }
             
-            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q));
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, examSize).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
-            examTimeLeft = 1200;
-            examAnswers = new Array(20).fill(null);
-            examResults = new Array(20).fill(null);
+            examTimeLeft = username === 'admin' ? 600 : 1200;
+            examAnswers = new Array(examSize).fill(null);
+            examResults = new Array(examSize).fill(null);
             answeredQuestionsCount = 0;
             
             document.getElementById('exam-result').style.display = 'none';
@@ -2285,6 +3374,9 @@
             if (timerContainer) timerContainer.style.display = 'inline-flex';
             if (stats) stats.style.display = 'flex';
             if (progressContainer) progressContainer.style.display = 'block';
+            
+            const examCounter = document.getElementById('exam-counter');
+            if (examCounter) examCounter.innerText = `0/${examSize}`;
             
             startExamTimer();
             loadExamQuestion();
@@ -2324,7 +3416,10 @@
         }
 
         function loadExamQuestion() {
-            if (examCurrentIdx >= 20) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            if (examCurrentIdx >= examSize) {
                 finishExam(true);
                 return;
             }
@@ -2336,7 +3431,7 @@
             if (qText) qText.innerText = q.q;
             
             const counter = document.getElementById('exam-counter');
-            if (counter) counter.innerText = `${examCurrentIdx + 1}/20`;
+            if (counter) counter.innerText = `${examCurrentIdx + 1}/${examSize}`;
             
             const errors = document.getElementById('exam-errors');
             if (errors) errors.innerText = examErrors;
@@ -2453,6 +3548,9 @@
                 const errorsElement = document.getElementById('exam-errors');
                 if (errorsElement) errorsElement.innerText = examErrors;
                 
+                const username = localStorage.getItem('username');
+                const examSize = username === 'admin' ? 10 : 20;
+                
                 if (examErrors > 2) {
                     finishExam(false);
                     return;
@@ -2461,7 +3559,10 @@
 
             examCurrentIdx++;
             
-            if (examCurrentIdx < 20) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            if (examCurrentIdx < examSize) {
                 loadExamQuestion();
             } else {
                 finishExam(true);
@@ -2474,7 +3575,9 @@
                 examTimer = null;
             }
             
-            const totalQuestions = 20;
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            const totalQuestions = examSize;
             const correctAnswers = totalQuestions - examErrors;
             const percentage = (correctAnswers / totalQuestions) * 100;
             const passed = completed && examErrors <= 2 && examTimeLeft > 0;
@@ -2511,7 +3614,7 @@
             }
             
             if (resultScore) {
-                resultScore.innerHTML = `${correctAnswers}/20`;
+                resultScore.innerHTML = `${correctAnswers}/${totalQuestions}`;
                 resultScore.className = passed ? 'result-score result-pass' : 'result-score result-fail';
             }
             
@@ -2524,7 +3627,7 @@
             
             if (resultDetails) {
                 resultDetails.innerHTML = `
-                    Правильных ответов: ${correctAnswers} из 20<br>
+                    Правильных ответов: ${correctAnswers} из ${totalQuestions}<br>
                     Ошибок: ${examErrors}<br>
                     Процент правильных: ${percentage.toFixed(1)}%<br>
                     ${reason ? '<br>Причина: ' + reason : ''}
@@ -2548,7 +3651,10 @@
                 return;
             }
             
-            for (let i = 0; i < 20; i++) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            for (let i = 0; i < examSize; i++) {
                 const result = examResults[i];
                 
                 if (result && result.question) {
@@ -2593,7 +3699,10 @@
         }
 
         function jumpToReview(index) {
-            if (index >= 0 && index < 20 && examResults[index] && examResults[index].question) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            if (index >= 0 && index < examSize && examResults[index] && examResults[index].question) {
                 reviewCurrentIdx = index;
                 
                 document.getElementById('exam-screen').style.display = 'none';
@@ -2615,7 +3724,7 @@
             if (qText) qText.innerText = q.q;
             
             const counter = document.getElementById('review-counter');
-            if (counter) counter.innerText = `${reviewCurrentIdx + 1}/20`;
+            if (counter) counter.innerText = `${reviewCurrentIdx + 1}/${examResults.length}`;
             
             const hardCount = document.getElementById('review-hard-count');
             if (hardCount) hardCount.innerText = hardQuestions.length;
@@ -2675,7 +3784,10 @@
             
             pagination.innerHTML = '';
             
-            for (let i = 0; i < 20; i++) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            for (let i = 0; i < examSize; i++) {
                 const result = examResults[i];
                 
                 if (result && result.question) {
@@ -2713,6 +3825,9 @@
             const prevBtn = document.getElementById('review-prev-btn');
             const nextBtn = document.getElementById('review-next-btn');
             
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
             if (prevBtn) {
                 prevBtn.disabled = true;
                 for (let i = reviewCurrentIdx - 1; i >= 0; i--) {
@@ -2725,7 +3840,7 @@
             
             if (nextBtn) {
                 nextBtn.disabled = true;
-                for (let i = reviewCurrentIdx + 1; i < 20; i++) {
+                for (let i = reviewCurrentIdx + 1; i < examSize; i++) {
                     if (examResults[i] && examResults[i].question) {
                         nextBtn.disabled = false;
                         break;
@@ -2747,7 +3862,10 @@
         }
 
         function nextReviewQuestion() {
-            for (let i = reviewCurrentIdx + 1; i < 20; i++) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            for (let i = reviewCurrentIdx + 1; i < examSize; i++) {
                 if (examResults[i] && examResults[i].question) {
                     reviewCurrentIdx = i;
                     loadReviewQuestion();
@@ -2994,11 +4112,11 @@
             const q = activeQuestions[currentIdx];
             if (!q) return;
             
+            const wasCorrect = q.c.every(v => selectedOptions.includes(v)) && 
+                              selectedOptions.length === q.c.length;
+            
             const btns = document.querySelectorAll('.option-btn');
             
-            const isCorrect = q.c.every(v => selectedOptions.includes(v)) && 
-                             selectedOptions.length === q.c.length;
-
             btns.forEach((btn, i) => {
                 btn.disabled = true;
                 if (q.c.includes(i)) {
@@ -3011,10 +4129,10 @@
             answerStates.set(q.id, {
                 selected: [...selectedOptions],
                 isChecked: true,
-                isCorrect: isCorrect
+                isCorrect: wasCorrect
             });
 
-            if (isCorrect) {
+            if (wasCorrect) {
                 score++;
                 const scoreDisplay = document.getElementById('score-display');
                 if (scoreDisplay) scoreDisplay.innerText = `${score}`;
@@ -3025,6 +4143,9 @@
                 expBox.innerHTML = formatExplanation(q.e);
                 expBox.style.display = 'block';
             }
+            
+            // Записываем статистику
+            updateStats(q.id, wasCorrect);
             
             updateNavigationButtons();
             renderPagination();
@@ -3118,7 +4239,9 @@
         }
 
         function updateExamProgress() {
-            const progress = ((examCurrentIdx + 1) / 20) * 100;
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            const progress = ((examCurrentIdx + 1) / examSize) * 100;
             const fillElement = document.getElementById('exam-progress-fill');
             if (fillElement) fillElement.style.width = progress + '%';
         }
@@ -3130,12 +4253,10 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Загружаем тест по умолчанию (б211)
+            checkAuth();
             loadQuestions('b211');
+            updateStatsDisplay();
         });
     </script>
 </body>
 </html>
-
-
-

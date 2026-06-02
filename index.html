@@ -22,8 +22,10 @@
 <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#1e3c5c">
 <meta name="theme-color" content="#1e3c5c">
 <meta name="msapplication-TileColor" content="#1e3c5c">
+<!-- Подключаем конфиг, он должен лежать рядом -->
 <script src="tests-config.js"></script>
 <style>
+/* ===== ВСЕ ОРИГИНАЛЬНЫЕ СТИЛИ СОХРАНЕНЫ ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
 body { background: #1e3c5c; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); position: relative; }
 .login-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #1e3c5c 0%, #0a1a2a 100%); display: flex; justify-content: center; align-items: center; z-index: 10000; padding: 20px; }
@@ -328,7 +330,7 @@ function updateWrongCount() { const count = wrongQuestions.length; const wrongCo
 function resetWrongQuestions(event) { if (event) { event.preventDefault(); event.stopPropagation(); } if (confirm('Очистить список ошибочных вопросов?')) { wrongQuestions = []; saveWrongQuestions(); updateWrongCount(); if (document.getElementById('wrong-mode-screen').style.display === 'block') showMenu(); showNotification('✅ Список ошибочных вопросов очищен'); } return false; }
 function addToWrongQuestions(questionId) { if (!wrongQuestions.includes(questionId)) { wrongQuestions.push(questionId); saveWrongQuestions(); updateWrongCount(); } }
 
-// ✅ НОВАЯ ФУНКЦИЯ: СБРОС ОТВЕТОВ В РЕЖИМАХ (НЕ УДАЛЯЕТ ВОПРОСЫ)
+// ✅ СБРОС ОТВЕТОВ В РЕЖИМАХ (НЕ УДАЛЯЕТ ВОПРОСЫ)
 function resetModeAnswers() {
   if (!modeQuestions.length) return showNotification('⚠️ Список пуст');
   modeAnswerStates.clear(); modeScore = 0; modeCurrentIdx = 0;
@@ -419,7 +421,63 @@ function resetAllScreens() { document.getElementById('menu-screen').style.displa
 function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } return array; }
 function shuffleQuestionOptions(question) { if (question.originalOptions) return question; const options = [...question.o]; const correctIndices = [...question.c]; const optionsWithIndex = options.map((text, index) => ({ text, originalIndex: index })); const shuffled = shuffleArray([...optionsWithIndex]); const newCorrectIndices = []; shuffled.forEach((item, newIndex) => { if (correctIndices.includes(item.originalIndex)) newCorrectIndices.push(newIndex); }); return { ...question, originalOptions: options, originalCorrect: correctIndices, o: shuffled.map(item => item.text), c: newCorrectIndices.sort((a, b) => a - b) }; }
 function selectTest(testId) { const username = localStorage.getItem('username'); const userType = localStorage.getItem('userType'); if (userType !== 'super') { const user = USERS[username]; const availableTests = user?.availableTests || ['b211']; if (!availableTests.includes(testId)) { showNotification('❌ У вас нет доступа к этому тесту'); return; } } if (!TEST_CONFIGS[testId]) { showNotification('Тест появится в скором времени'); return; } resetAllScreens(); fullBase = []; activeQuestions = []; hardQuestions = []; wrongQuestions = []; examQuestions = []; examAnswers = []; examResults = []; currentIdx = 0; score = 0; examCurrentIdx = 0; examErrors = 0; examTimeLeft = 1200; answeredQuestionsCount = 0; reviewCurrentIdx = 0; answerStates.clear(); selectedOptions = []; if (examTimer) { clearInterval(examTimer); examTimer = null; } clearTrainingState(); currentTest = testId; const config = TEST_CONFIGS[testId]; let displayName = `${config.code} ${config.name}`; if (window.innerWidth <= 480) { const shortNames = { 'b211': 'Б.2.11 Ремонтные работы', 'b26-marine': 'Б.2.6 Морские' }; displayName = shortNames[testId] || `${config.code} ${config.name}`; } document.getElementById('selectedTestDisplay').innerText = displayName; document.getElementById('testTitle').innerHTML = config.fullName; document.querySelectorAll('.test-item').forEach(item => { item.classList.remove('selected'); if (item.dataset.test === testId) item.classList.add('selected'); }); document.getElementById('testDropdown').classList.remove('show'); document.getElementById('testSelectorBtn').classList.remove('active'); loadQuestions(testId); }
-async function loadQuestions(testId) { const config = TEST_CONFIGS[testId]; if (!config) return; try { const response = await fetch(`${config.jsonFile}?t=${Date.now()}`); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); const data = await response.json(); if (testId === 'b26-marine') fullBase = data.b26 || []; else fullBase = data[testId] || []; if (fullBase.length === 0) throw new Error('Вопросы не найдены'); loadHardQuestions(); loadWrongQuestions(); updateHardCount(); updateWrongCount(); const menuGrid = document.querySelector('.menu-grid'); if (menuGrid) { menuGrid.innerHTML = ''; if (config && config.blocks) config.blocks.forEach(block => { const blockCard = document.createElement('div'); blockCard.className = 'block-card'; blockCard.innerHTML = `<h3>БЛОК ${block.num}</h3><p>${block.desc}</p><div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;"><button class="train-btn" style="padding: 8px 15px; font-size: 0.9em; background: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;" onclick="event.stopPropagation(); startBlock('${testId}', ${block.num}, ${block.start}, ${block.end})">ТРЕНИРОВКА</button><button class="test-btn" style="padding: 8px 15px; font-size: 0.9em; background: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;" onclick="event.stopPropagation(); startTestMode('${testId}', ${block.num}, ${block.start}, ${block.end})">ТЕСТ</button></div>`; menuGrid.appendChild(blockCard); }); } document.getElementById('menu-screen').style.display = 'block'; showNotification(`✅ Загружено ${fullBase.length} вопросов`); } catch (error) { console.error('Ошибка загрузки:', error); showNotification(`❌ Не удалось загрузить тест "${config.name}"`); fullBase = []; } }
+
+// ✅ ИСПРАВЛЕНА ФУНКЦИЯ ЗАГРУЗКИ ВОПРОСОВ
+async function loadQuestions(testId) {
+  const config = TEST_CONFIGS[testId];
+  if (!config) return;
+  
+  try {
+    console.log(`📥 Загрузка вопросов: ${config.jsonFile}`);
+    const response = await fetch(`${config.jsonFile}?t=${Date.now()}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    
+    const data = await response.json();
+    
+    // Универсальная логика извлечения вопросов
+    if (Array.isArray(data)) {
+      fullBase = data;
+    } else if (testId === 'b26-marine' && data.b26) {
+      fullBase = data.b26;
+    } else {
+      fullBase = data[testId] || [];
+    }
+
+    if (!fullBase || fullBase.length === 0) {
+      throw new Error('Файл загружен, но массив вопросов пуст или ключ не найден');
+    }
+    
+    console.log(`✅ Успешно загружено: ${fullBase.length} вопросов`);
+    loadHardQuestions();
+    loadWrongQuestions();
+    updateHardCount();
+    updateWrongCount();
+    
+    const menuGrid = document.querySelector('.menu-grid');
+    if (menuGrid) {
+      menuGrid.innerHTML = '';
+      if (config.blocks) {
+        config.blocks.forEach(block => {
+          const blockCard = document.createElement('div');
+          blockCard.className = 'block-card';
+          blockCard.innerHTML = `<h3>БЛОК ${block.num}</h3><p>${block.desc}</p>
+          <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+            <button class="train-btn" style="padding: 8px 15px; font-size: 0.9em; background: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;" onclick="event.stopPropagation(); startBlock('${testId}', ${block.num}, ${block.start}, ${block.end})">ТРЕНИРОВКА</button>
+            <button class="test-btn" style="padding: 8px 15px; font-size: 0.9em; background: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;" onclick="event.stopPropagation(); startTestMode('${testId}', ${block.num}, ${block.start}, ${block.end})">ТЕСТ</button>
+          </div>`;
+          menuGrid.appendChild(blockCard);
+        });
+      }
+    }
+    document.getElementById('menu-screen').style.display = 'block';
+    showNotification(`✅ Загружено ${fullBase.length} вопросов`);
+  } catch (error) {
+    console.error('❌ Ошибка загрузки:', error);
+    showNotification(`❌ Ошибка загрузки: ${error.message}`);
+    fullBase = [];
+  }
+}
+
 function showMenu() { if (examTimer) clearInterval(examTimer); if (activeQuestions.length > 0 && currentIdx < activeQuestions.length) { if (!confirm('Прогресс текущего блока будет сохранен. Вернуться в меню?')) return; saveTrainingState(); } document.getElementById('menu-screen').style.display = 'block'; document.getElementById('quiz-screen').style.display = 'none'; document.getElementById('test-screen').style.display = 'none'; document.getElementById('exam-screen').style.display = 'none'; document.getElementById('exam-review-screen').style.display = 'none'; document.getElementById('hard-mode-screen').style.display = 'none'; document.getElementById('wrong-mode-screen').style.display = 'none'; updateHardCount(); updateWrongCount(); }
 function login() { const username = document.getElementById('username').value.trim(); const password = document.getElementById('password').value; const errorElement = document.getElementById('login-error'); errorElement.textContent = ''; document.getElementById('username').classList.remove('error'); document.getElementById('password').classList.remove('error'); if (!username) { errorElement.textContent = 'Введите логин'; document.getElementById('username').classList.add('error'); return; } if (!password) { errorElement.textContent = 'Введите пароль'; document.getElementById('password').classList.add('error'); return; } if (username === SUPER_USER.username && password === SUPER_USER.password) { localStorage.setItem('authenticated', 'true'); localStorage.setItem('username', 'super'); localStorage.setItem('userType', 'super'); localStorage.setItem('loginTime', new Date().toISOString()); const loginScreen = document.getElementById('login-screen'); loginScreen.style.animation = 'fadeOut 0.3s ease forwards'; setTimeout(() => { loginScreen.style.display = 'none'; document.querySelector('.container').classList.add('authenticated'); document.getElementById('admin-icon').style.display = 'flex'; loadQuestions(currentTest); showNotification('Добро пожаловать, супер-пользователь!'); }, 300); return; } const user = USERS[username]; if (user && user.password === password) { localStorage.setItem('authenticated', 'true'); localStorage.setItem('username', username); localStorage.setItem('userType', 'regular'); localStorage.setItem('userName', user.name || username); localStorage.setItem('loginTime', new Date().toISOString()); const loginScreen = document.getElementById('login-screen'); loginScreen.style.animation = 'fadeOut 0.3s ease forwards'; setTimeout(() => { loginScreen.style.display = 'none'; document.querySelector('.container').classList.add('authenticated'); loadQuestions(currentTest); showNotification(`Добро пожаловать, ${user.name || username}!`); }, 300); } else { errorElement.textContent = 'Неверный логин или пароль'; document.getElementById('username').classList.add('error'); document.getElementById('password').classList.add('error'); document.getElementById('password').value = ''; } }
 function logout() { if (confirm('Вы действительно хотите выйти?')) { hardQuestions = []; wrongQuestions = []; updateHardCount(); updateWrongCount(); localStorage.removeItem('authenticated'); localStorage.removeItem('username'); localStorage.removeItem('userType'); localStorage.removeItem('userName'); localStorage.removeItem('loginTime'); document.getElementById('login-screen').style.display = 'flex'; document.getElementById('login-screen').style.animation = ''; document.querySelector('.container').classList.remove('authenticated'); document.getElementById('admin-icon').style.display = 'none'; document.getElementById('username').value = ''; document.getElementById('password').value = ''; showNotification('Вы вышли из системы'); } }

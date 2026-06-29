@@ -1,4 +1,4 @@
-const AVAILABLE_TESTS = ['b211', 'b26-marine', 'b28'];
+const AVAILABLE_TESTS = ['b211', 'b26-marine', 'b28', 'b23'];
 const TEST_CONFIGS = {
   a1: {
     code: 'А.1',
@@ -33,12 +33,12 @@ const TEST_CONFIGS = {
     name: 'Проектирование, строительство, реконструкция',
     fullName: 'Б.2.3 Проектирование, строительство, реконструкция и капитальный ремонт',
     jsonFile: 'questions_b23.json',
-    totalQuestions: 228,
+    totalQuestions: 227,
     blocks: [
       { num: 1, start: 0, end: 57, desc: 'Вопросы 1 - 57' },
       { num: 2, start: 57, end: 114, desc: 'Вопросы 58 - 114' },
       { num: 3, start: 114, end: 171, desc: 'Вопросы 115 - 171' },
-      { num: 4, start: 171, end: 228, desc: 'Вопросы 172 - 228' }
+      { num: 4, start: 171, end: 228, desc: 'Вопросы 172 - 227' }
     ]
   },
   'b26-marine': {

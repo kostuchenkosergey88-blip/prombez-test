@@ -5,7 +5,8 @@ const urlsToCache = [
   'tests-config.js',        // ✅ ВАЖНО: конфиг грузится скриптом, должен быть в кеше
   'questions_b211.json',
   'questions_b26.json',
-  'questions_b28.json',     
+  'questions_b28.json',
+  'questions_b23.json',
   'icons/icon-152x152.png',
   'icons/icon-167x167.png',
   'icons/icon-180x180.png',

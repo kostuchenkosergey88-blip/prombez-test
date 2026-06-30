@@ -1654,12 +1654,12 @@ font-size: 0.9em;
 </div>
 <div class="test-dropdown" id="testDropdown">
 <div class="test-group">Промышленная безопасность</div>
-<div class="test-item disabled" data-test="a1" onclick="selectTest('a1'); event.stopPropagation();">
+<div class="test-item" data-test="a1" onclick="selectTest('a1'); event.stopPropagation();">
 <span class="test-code">А.1</span>
 <span class="test-name">Основы промышленной безопасности</span>
 <div class="test-desc">211 вопросов</div>
 </div>
-<div class="test-item disabled" data-test="b21" onclick="selectTest('b21'); event.stopPropagation();">
+<div class="test-item" data-test="b21" onclick="selectTest('b21'); event.stopPropagation();">
 <span class="test-code">Б.2.1</span>
 <span class="test-name">Эксплуатация объектов нефтяной и газовой промышленности</span>
 <div class="test-desc">405 вопросов</div>
@@ -1674,7 +1674,7 @@ font-size: 0.9em;
 <span class="test-name">Разведка и разработка морских месторождений</span>
 <div class="test-desc">187 вопросов</div>
 </div>
-<div class="test-item disabled" data-test="b27" onclick="selectTest('b27'); event.stopPropagation();">
+<div class="test-item" data-test="b27" onclick="selectTest('b27'); event.stopPropagation();">
 <span class="test-code">Б.2.7</span>
 <span class="test-name">Магистральные нефтепроводы</span>
 <div class="test-desc">155 вопросов</div>
@@ -1692,22 +1692,22 @@ font-size: 0.9em;
 <div class="test-group">Электробезопасность</div>
 <div class="test-item disabled" data-test="electro2" onclick="selectTest('electro2'); event.stopPropagation();">
 <span class="test-code">2 гр.</span>
-<span class="test-name">До и выше 1000В</span>
+<span class="test-name">До 1000В</span>
 <div class="test-desc">100 вопросов</div>
 </div>
-<div class="test-item disabled" data-test="electro3" onclick="selectTest('electro3'); event.stopPropagation();">
+<div class="test-item" data-test="electro3" onclick="selectTest('electro3'); event.stopPropagation();">
 <span class="test-code">3 гр.</span>
-<span class="test-name">До и выше 1000В</span>
-<div class="test-desc">120 вопросов</div>
+<span class="test-name">До 1000В</span>
+<div class="test-desc">281 вопросов</div>
 </div>
-<div class="test-item disabled" data-test="electro4" onclick="selectTest('electro4'); event.stopPropagation();">
+<div class="test-item" data-test="electro4" onclick="selectTest('electro4'); event.stopPropagation();">
 <span class="test-code">4 гр.</span>
-<span class="test-name">До и выше 1000В</span>
-<div class="test-desc">140 вопросов</div>
+<span class="test-name">До 1000В</span>
+<div class="test-desc">304 вопросов</div>
 </div>
 <div class="test-item disabled" data-test="electro5" onclick="selectTest('electro5'); event.stopPropagation();">
 <span class="test-code">5 гр.</span>
-<span class="test-name">До и выше 1000В</span>
+<span class="test-name">До 1000В</span>
 <div class="test-desc">160 вопросов</div>
 </div>
 </div>
@@ -2023,12 +2023,12 @@ const USERS = {
 'Dimon': {
 password: '12345678Qwerty',
 name: 'Дмитрий Колесов',
-availableTests: ['b211', 'b26-marine', 'b28', 'b23']
+availableTests: ['b211', 'b26-marine', 'b28', 'b23', 'b27', 'a1', 'b21', 'electro3', 'electro4']
 },
 'Sergey': {
 password: '84242558911',
 name: 'Костюченко Сергей',
-availableTests: ['b211', 'b26-marine', 'b28', 'b23']
+availableTests: ['b211', 'b26-marine', 'b28', 'b23', 'b27', 'a1', 'b21', 'electro3', 'electro4']
 }
 };
 const PENDING_USERS = {};

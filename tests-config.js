@@ -1,4 +1,4 @@
-const AVAILABLE_TESTS = ['b211', 'b26-marine', 'b28', 'b23'];
+const AVAILABLE_TESTS = ['b211', 'b26-marine', 'b28', 'b23', 'b27', 'a1', 'b21', 'electro3', 'electro4'];
 const TEST_CONFIGS = {
   a1: {
     code: 'А.1',

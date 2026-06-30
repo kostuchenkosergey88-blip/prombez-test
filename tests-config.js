@@ -96,7 +96,7 @@ const TEST_CONFIGS = {
   electro2: {
     code: '2 гр.',
     name: 'Электробезопасность (2 группа)',
-    fullName: 'Электробезопасность 2 группа<br>До и выше 1000В',
+    fullName: 'Электробезопасность 2 группа<br>До 1000В',
     jsonFile: 'questions_electro2.json',
     totalQuestions: 100,
     blocks: [
@@ -109,33 +109,33 @@ const TEST_CONFIGS = {
   electro3: {
     code: '3 гр.',
     name: 'Электробезопасность (3 группа)',
-    fullName: 'Электробезопасность 3 группа<br>До и выше 1000В',
+    fullName: 'Электробезопасность 3 группа<br>До 1000В',
     jsonFile: 'questions_electro3.json',
-    totalQuestions: 120,
+    totalQuestions: 281,
     blocks: [
-      { num: 1, start: 0, end: 30, desc: 'Вопросы 1 - 30' },
-      { num: 2, start: 30, end: 60, desc: 'Вопросы 31 - 60' },
-      { num: 3, start: 60, end: 90, desc: 'Вопросы 61 - 90' },
-      { num: 4, start: 90, end: 120, desc: 'Вопросы 91 - 120' }
+     { num: 1, start: 0, end: 70, desc: 'Вопросы 1 - 70' },
+     { num: 2, start: 70, end: 140, desc: 'Вопросы 71 - 140' },
+     { num: 3, start: 140, end: 210, desc: 'Вопросы 141 - 210' },
+     { num: 4, start: 210, end: 281, desc: 'Вопросы 211 - 281' }
     ]
   },
   electro4: {
     code: '4 гр.',
     name: 'Электробезопасность (4 группа)',
-    fullName: 'Электробезопасность 4 группа<br>До и выше 1000В',
+    fullName: 'Электробезопасность 4 группа<br>До 1000В',
     jsonFile: 'questions_electro4.json',
-    totalQuestions: 140,
+    totalQuestions: 304,
     blocks: [
-      { num: 1, start: 0, end: 35, desc: 'Вопросы 1 - 35' },
-      { num: 2, start: 35, end: 70, desc: 'Вопросы 36 - 70' },
-      { num: 3, start: 70, end: 105, desc: 'Вопросы 71 - 105' },
-      { num: 4, start: 105, end: 140, desc: 'Вопросы 106 - 140' }
+     { num: 1, start: 0, end: 76, desc: 'Вопросы 1 - 76' },
+     { num: 2, start: 76, end: 152, desc: 'Вопросы 77 - 152' },
+     { num: 3, start: 152, end: 228, desc: 'Вопросы 153 - 228' },
+     { num: 4, start: 228, end: 304, desc: 'Вопросы 229 - 304' }
     ]
   },
   electro5: {
     code: '5 гр.',
     name: 'Электробезопасность (5 группа)',
-    fullName: 'Электробезопасность 5 группа<br>До и выше 1000В',
+    fullName: 'Электробезопасность 5 группа<br>До 1000В',
     jsonFile: 'questions_electro5.json',
     totalQuestions: 160,
     blocks: [

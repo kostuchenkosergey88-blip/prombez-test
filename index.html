@@ -1924,7 +1924,7 @@ font-size: 0.9em;
 <div class="progress-fill exam-progress" id="exam-progress-fill"></div>
 </div>
 <div class="question-container exam-question" id="exam-question-container">
-<button class="star-btn" id="exam-star-btn" onclick="toggleExamQuestionHard()">★</button>
+<button class="star-btn" id="exam-star-btn" onclick="toggleExamQuestionHard()" style="z-index: 999; cursor: pointer;">★</button>
 <div id="exam-q-text"></div>
 </div>
 <div class="options-box" id="exam-options-box"></div>
@@ -2855,7 +2855,11 @@ function loadExamQuestion() {
 document.getElementById('exam-errors').innerText = examErrors;
 const starBtn = document.getElementById('exam-star-btn');
 if (starBtn) {
-starBtn.classList.toggle('active', hardQuestions.includes(q.id));
+    if (hardQuestions.includes(q.id)) {
+        starBtn.classList.add('active');
+    } else {
+        starBtn.classList.remove('active');
+    }
 }
 const box = document.getElementById('exam-options-box');
 box.innerHTML = '';

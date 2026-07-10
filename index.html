@@ -2852,14 +2852,12 @@ function loadExamQuestion() {
     const q = examQuestions[examCurrentIdx];
     document.getElementById('exam-q-text').innerText = q.q;
     document.getElementById('exam-counter').innerText = `${examCurrentIdx + 1}/20`;
-    document.getElementById('exam-errors').innerText = examErrors;
-    
-    const starBtn = document.getElementById('exam-star-btn');
-    if (starBtn) {
-        starBtn.classList.toggle('active', hardQuestions.includes(q.id));
-    }
-
-    const box = document.getElementById('exam-options-box');
+document.getElementById('exam-errors').innerText = examErrors;
+const starBtn = document.getElementById('exam-star-btn');
+if (starBtn) {
+starBtn.classList.toggle('active', hardQuestions.includes(q.id));
+}
+const box = document.getElementById('exam-options-box');
 box.innerHTML = '';
 const savedAnswer = examAnswers[examCurrentIdx];
 const isMultiple = q.c.length > 1;

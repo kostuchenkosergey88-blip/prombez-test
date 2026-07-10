@@ -3049,22 +3049,6 @@ document.getElementById('review-star-btn').classList.toggle('active');
 document.getElementById('review-hard-count').innerText = hardQuestions.length;
 updateHardCount();
 }
-function toggleExamQuestionHard() {
-    const q = examQuestions[examCurrentIdx];
-    if (!q) return;
-    const id = q.id;
-    if (hardQuestions.includes(id)) {
-        hardQuestions = hardQuestions.filter(h => h !== id);
-    } else {
-        hardQuestions.push(id);
-    }
-    saveHardQuestions();
-    const starBtn = document.getElementById('exam-star-btn');
-    if (starBtn) {
-        starBtn.classList.toggle('active', hardQuestions.includes(id));
-    }
-    updateHardCount();
-}
 function toggleExamHard(questionId, event) {
 event.stopPropagation();
 if (hardQuestions.includes(questionId)) {

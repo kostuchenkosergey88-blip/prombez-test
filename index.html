@@ -1924,6 +1924,7 @@ font-size: 0.9em;
 <div class="progress-fill exam-progress" id="exam-progress-fill"></div>
 </div>
 <div class="question-container exam-question" id="exam-question-container">
+<button class="star-btn" id="exam-star-btn" onclick="toggleExamQuestionHard()">★</button>
 <div id="exam-q-text"></div>
 </div>
 <div class="options-box" id="exam-options-box"></div>
@@ -2844,15 +2845,21 @@ if (examTimeLeft <= 0) finishExam(false);
 }, 1000);
 }
 function loadExamQuestion() {
-if (examCurrentIdx >= 20) {
-finishExam(true);
-return;
-}
-const q = examQuestions[examCurrentIdx];
-document.getElementById('exam-q-text').innerText = q.q;
-document.getElementById('exam-counter').innerText = `${examCurrentIdx + 1}/20`;
-document.getElementById('exam-errors').innerText = examErrors;
-const box = document.getElementById('exam-options-box');
+    if (examCurrentIdx >= 20) {
+        finishExam(true);
+        return;
+    }
+    const q = examQuestions[examCurrentIdx];
+    document.getElementById('exam-q-text').innerText = q.q;
+    document.getElementById('exam-counter').innerText = `${examCurrentIdx + 1}/20`;
+    document.getElementById('exam-errors').innerText = examErrors;
+    
+    const starBtn = document.getElementById('exam-star-btn');
+    if (starBtn) {
+        starBtn.classList.toggle('active', hardQuestions.includes(q.id));
+    }
+
+    const box = document.getElementById('exam-options-box');
 box.innerHTML = '';
 const savedAnswer = examAnswers[examCurrentIdx];
 const isMultiple = q.c.length > 1;
@@ -3041,6 +3048,22 @@ saveHardQuestions();
 document.getElementById('review-star-btn').classList.toggle('active');
 document.getElementById('review-hard-count').innerText = hardQuestions.length;
 updateHardCount();
+}
+function toggleExamQuestionHard() {
+    const q = examQuestions[examCurrentIdx];
+    if (!q) return;
+    const id = q.id;
+    if (hardQuestions.includes(id)) {
+        hardQuestions = hardQuestions.filter(h => h !== id);
+    } else {
+        hardQuestions.push(id);
+    }
+    saveHardQuestions();
+    const starBtn = document.getElementById('exam-star-btn');
+    if (starBtn) {
+        starBtn.classList.toggle('active', hardQuestions.includes(id));
+    }
+    updateHardCount();
 }
 function toggleExamHard(questionId, event) {
 event.stopPropagation();

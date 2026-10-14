@@ -35,66 +35,7 @@ document.documentElement.setAttribute('data-theme', t);
 </script>
 </head>
 <body>
-<div id="login-screen" class="login-container">
-<div class="login-box">
-<div class="login-header">
-<h2>PRO100 TEST</h2>
-<p>SiLовская система тестирования по промышленной безопасности</p>
-</div>
-<div id="login-form" class="active">
-<div class="login-form">
-<div class="input-group">
-<label for="username">Логин</label>
-<input type="text" id="username" placeholder="Введите логин" autocomplete="off">
-</div>
-<div class="input-group">
-<label for="password">Пароль</label>
-<input type="password" id="password" placeholder="Введите пароль">
-</div>
-<button class="login-btn" onclick="login()">Войти</button>
-<div id="login-error" class="login-message"></div>
-</div>
-</div>
-<div class="login-footer">
-<p>Вход только для авторизованных пользователей</p>
-</div>
-</div>
-<div id="admin-panel" class="admin-panel" style="display: none;">
-<div class="admin-header">
-<h2>Панель управления</h2>
-<button class="admin-back-btn" onclick="adminBack()">← Назад</button>
-</div>
-<div class="admin-stats-grid">
-<div class="admin-stat-card">
-<div class="admin-stat-number" id="stat-users">0</div>
-<div class="admin-stat-label">Пользователей</div>
-</div>
-<div class="admin-stat-card">
-<div class="admin-stat-number" id="stat-pending">0</div>
-<div class="admin-stat-label">Заявок</div>
-</div>
-<div class="admin-stat-card">
-<div class="admin-stat-number" id="stat-tests">2</div>
-<div class="admin-stat-label">Тестов</div>
-</div>
-</div>
-<div class="admin-section">
-<div class="admin-section-header">
-<h3>Новые заявки</h3>
-<span class="badge" id="pending-badge">0</span>
-</div>
-<div class="admin-list" id="pending-list"></div>
-</div>
-<div class="admin-section">
-<div class="admin-section-header">
-<h3>Пользователи</h3>
-<span class="badge" id="users-badge">0</span>
-</div>
-<div class="admin-list" id="users-list"></div>
-</div>
-</div>
-</div>
-<div class="container">
+<div class="container authenticated">
 <div class="top-panel">
 <div class="panel-left">
 <h3>PRO100 TEST</h3>
@@ -168,8 +109,6 @@ document.documentElement.setAttribute('data-theme', t);
 <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
 <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
 </button>
-<button id="admin-icon" class="nav-square admin" onclick="openAdminPanel()" style="display: none;">Админ</button>
-<button class="nav-square logout" onclick="logout()">Выйти</button>
 </div>
 </div>
 </div>
@@ -469,21 +408,6 @@ score: 0,
 blockNum: null,
 questionStates: []
 };
-//  ПОЛЬЗОВАТЕЛИ
-const SUPER_USER = { username: 'kostyuchenko', password: '84242558911' };
-const USERS = {
-'Dimon': {
-password: '12345678Qwerty',
-name: 'Дмитрий Колесов',
-availableTests: ['b211', 'b26-marine', 'b28', 'b23', 'b27', 'a1', 'b21', 'electro3', 'electro4']
-},
-'Sergey': {
-password: '84242558911',
-name: 'Костюченко Сергей',
-availableTests: ['b211', 'b26-marine', 'b28', 'b23', 'b27', 'a1', 'b21', 'electro3', 'electro4']
-}
-};
-const PENDING_USERS = {};
 // ========== ФУНКЦИИ ДЛЯ ХРАНЕНИЯ ДАННЫХ ==========
 function getHardKey() {
 const username = localStorage.getItem('username') || 'guest';
@@ -1627,16 +1551,6 @@ c: newCorrectIndices.sort((a, b) => a - b)
 };
 }
 function selectTest(testId) {
-const username = localStorage.getItem('username');
-const userType = localStorage.getItem('userType');
-if (userType !== 'super') {
-const user = USERS[username];
-const availableTests = user?.availableTests || ['b211'];
-if (!availableTests.includes(testId)) {
-showNotification('❌ У вас нет доступа к этому тесту');
-return;
-}
-}
 if (!TEST_CONFIGS[testId]) {
 showNotification('Тест появится в скором времени');
 return;
@@ -1751,195 +1665,6 @@ document.getElementById('wrong-mode-screen').style.display = 'none';
 updateHardCount();
 updateWrongCount();
 }
-// ========== ФУНКЦИИ АВТОРИЗАЦИИ ==========
-function login() {
-const username = document.getElementById('username').value.trim();
-const password = document.getElementById('password').value;
-const errorElement = document.getElementById('login-error');
-errorElement.textContent = '';
-document.getElementById('username').classList.remove('error');
-document.getElementById('password').classList.remove('error');
-if (!username) {
-errorElement.textContent = 'Введите логин';
-document.getElementById('username').classList.add('error');
-return;
-}
-if (!password) {
-errorElement.textContent = 'Введите пароль';
-document.getElementById('password').classList.add('error');
-return;
-}
-if (username === SUPER_USER.username && password === SUPER_USER.password) {
-localStorage.setItem('authenticated', 'true');
-localStorage.setItem('username', 'super');
-localStorage.setItem('userType', 'super');
-localStorage.setItem('loginTime', new Date().toISOString());
-const loginScreen = document.getElementById('login-screen');
-loginScreen.style.animation = 'fadeOut 0.3s ease forwards';
-setTimeout(() => {
-loginScreen.style.display = 'none';
-document.querySelector('.container').classList.add('authenticated');
-document.getElementById('admin-icon').style.display = 'flex';
-loadQuestions(currentTest);
-showNotification('Добро пожаловать, супер-пользователь!');
-}, 300);
-return;
-}
-const user = USERS[username];
-if (user && user.password === password) {
-localStorage.setItem('authenticated', 'true');
-localStorage.setItem('username', username);
-localStorage.setItem('userType', 'regular');
-localStorage.setItem('userName', user.name || username);
-localStorage.setItem('loginTime', new Date().toISOString());
-const loginScreen = document.getElementById('login-screen');
-loginScreen.style.animation = 'fadeOut 0.3s ease forwards';
-setTimeout(() => {
-loginScreen.style.display = 'none';
-document.querySelector('.container').classList.add('authenticated');
-loadQuestions(currentTest);
-showNotification(`Добро пожаловать, ${user.name || username}!`);
-}, 300);
-} else {
-errorElement.textContent = 'Неверный логин или пароль';
-document.getElementById('username').classList.add('error');
-document.getElementById('password').classList.add('error');
-document.getElementById('password').value = '';
-}
-}
-function logout() {
-if (confirm('Вы действительно хотите выйти?')) {
-hardQuestions = [];
-wrongQuestions = [];
-updateHardCount();
-updateWrongCount();
-localStorage.removeItem('authenticated');
-localStorage.removeItem('username');
-localStorage.removeItem('userType');
-localStorage.removeItem('userName');
-localStorage.removeItem('loginTime');
-document.getElementById('login-screen').style.display = 'flex';
-document.getElementById('login-screen').style.animation = '';
-document.querySelector('.container').classList.remove('authenticated');
-document.getElementById('admin-icon').style.display = 'none';
-document.getElementById('username').value = '';
-document.getElementById('password').value = '';
-showNotification('Вы вышли из системы');
-}
-}
-function checkAuth() {
-const isAuthenticated = localStorage.getItem('authenticated') === 'true';
-const username = localStorage.getItem('username');
-const userType = localStorage.getItem('userType');
-if (isAuthenticated && username) {
-document.getElementById('login-screen').style.display = 'none';
-document.querySelector('.container').classList.add('authenticated');
-if (userType === 'super') {
-document.getElementById('admin-icon').style.display = 'flex';
-}
-loadQuestions(currentTest);
-} else {
-document.getElementById('login-screen').style.display = 'flex';
-document.querySelector('.container').classList.remove('authenticated');
-}
-}
-// ========== ФУНКЦИИ АДМИН-ПАНЕЛИ ==========
-function openAdminPanel() {
-document.querySelector('.container').style.display = 'none';
-document.getElementById('login-screen').style.display = 'flex';
-document.querySelector('.login-box').style.display = 'none';
-const adminPanel = document.getElementById('admin-panel');
-adminPanel.style.display = 'block';
-adminPanel.classList.add('show');
-loadAdminPanel();
-}
-function adminBack() {
-document.getElementById('admin-panel').style.display = 'none';
-document.getElementById('admin-panel').classList.remove('show');
-document.querySelector('.login-box').style.display = 'block';
-document.querySelector('.container').style.display = 'block';
-document.getElementById('login-screen').style.display = 'none';
-}
-function loadAdminPanel() {
-document.getElementById('stat-users').textContent = Object.keys(USERS).length;
-document.getElementById('stat-pending').textContent = 0;
-document.getElementById('pending-badge').textContent = 0;
-document.getElementById('users-badge').textContent = Object.keys(USERS).length;
-const pendingList = document.getElementById('pending-list');
-pendingList.innerHTML = '<div class="admin-empty-message">Регистрация отключена</div>';
-const usersList = document.getElementById('users-list');
-usersList.innerHTML = '';
-if (Object.keys(USERS).length === 0) {
-usersList.innerHTML = '<div class="admin-empty-message">Нет пользователей</div>';
-} else {
-Object.entries(USERS).forEach(([username, data]) => {
-const tests = data.availableTests || ['b211'];
-usersList.innerHTML += `
-<div class="admin-item" style="flex-direction: column; align-items: stretch;">
-<div class="admin-item-head">
-<div>
-<div class="admin-item-title">${username}</div>
-<div class="admin-item-subtitle">👤 ${data.name || username}</div>
-</div>
-<div class="admin-item-actions">
-<button class="admin-btn-delete" onclick="deleteUser('${username}')">Удалить</button>
-</div>
-</div>
-<div class="admin-item-tests">
-<div class="admin-item-tests-title">Доступные тесты</div>
-<div class="test-row">
-<div class="test-info">
-<span class="test-code">Б.2.11</span>
-<span class="test-name">Ремонтные работы</span>
-</div>
-<label class="switch">
-<input type="checkbox" ${tests.includes('b211') ? 'checked' : ''}
-onchange="toggleUserTest('${username}', 'b211', this.checked)">
-<span class="slider"></span>
-</label>
-</div>
-<div class="test-row">
-<div class="test-info">
-<span class="test-code">Б.2.6</span>
-<span class="test-name">Морские месторождения</span>
-</div>
-<label class="switch">
-<input type="checkbox" ${tests.includes('b26-marine') ? 'checked' : ''}
-onchange="toggleUserTest('${username}', 'b26-marine', this.checked)">
-<span class="slider"></span>
-</label>
-</div>
-</div>
-</div>
-`;
-});
-}
-}
-function deleteUser(username) {
-if (username === 'super') {
-showNotification('❌ Нельзя удалить супер-пользователя');
-return;
-}
-if (confirm(`Удалить пользователя ${username}?`)) {
-delete USERS[username];
-loadAdminPanel();
-showNotification(`✅ Пользователь ${username} удален`);
-}
-}
-function toggleUserTest(username, testId, checked) {
-if (!USERS[username]) return;
-if (!USERS[username].availableTests) {
-USERS[username].availableTests = ['b211'];
-}
-if (checked) {
-if (!USERS[username].availableTests.includes(testId)) {
-USERS[username].availableTests.push(testId);
-}
-} else {
-USERS[username].availableTests = USERS[username].availableTests.filter(t => t !== testId);
-}
-showNotification(`✅ Тест ${checked ? 'активирован' : 'деактивирован'} для ${username}`);
-}
 function toggleTheme() {
 const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
 document.documentElement.setAttribute('data-theme', next);
@@ -1947,7 +1672,7 @@ try { localStorage.setItem('theme', next); } catch (e) {}
 }
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded', function() {
-checkAuth();
+loadQuestions(currentTest);
 updateHardCount();
 updateWrongCount();
 });
